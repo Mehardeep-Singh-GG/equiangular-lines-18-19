@@ -1,0 +1,406 @@
+\documentclass[11pt,reqno]{amsart}
+
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,array,multirow,graphicx}
+\usepackage{xcolor}
+\usepackage[margin=1.12in]{geometry}
+\usepackage[hypertexnames=false,colorlinks=true,linkcolor=blue!60!black,citecolor=blue!60!black,urlcolor=blue!60!black]{hyperref}
+\urlstyle{tt}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\UrlOrds\do\_\do\-\do\.\do\0\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\a\do\b\do\c\do\d\do\e\do\f\do\i\do\k\do\l\do\m\do\n\do\o\do\p\do\r\do\s\do\t\do\u\do\x\do\y}
+\makeatother
+\usepackage{microtype}
+\setlength{\emergencystretch}{1.5em}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\adj}{adj}
+\DeclareMathOperator{\Pf}{Pf}
+\DeclareMathOperator{\SRG}{SRG}
+\DeclareMathOperator{\Deck}{Deck}
+\DeclareMathOperator{\mult}{mult}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\Aut}{Aut}
+
+\title[Upper bounds on equiangular lines in dimensions 18 and 19]{Upper bounds on real equiangular lines in dimensions \texorpdfstring{$18$}{18} and \texorpdfstring{$19$}{19}}
+\author{Mehardeep Singh}
+\address{Sri Chaitanya Educational Institutions, India}
+\email{mehardeep.sim@gmail.com}
+\date{November 2026}
+\subjclass[2020]{Primary 52C35, 05C50; Secondary 11C20, 68V15}
+\keywords{Equiangular lines, Seidel matrix, $2$-adic congruences, Pfaffian, Galois orthogonality, Jacobi complementary minor identity, strongly regular graphs, Lean 4}
+
+\begin{document}
+
+\begin{abstract}
+Let $N(d)$ denote the maximum cardinality of a system of equiangular lines in $\mathbb{R}^d$. Prior to this work, the smallest dimensions in which $N(d)$ remained undetermined were $d = 18$, $19$, and $20$, with $N(18) \in \{57, 58, 59\}$ and $N(19) \in \{72, 73, 74\}$. We prove unconditionally (certified by finite exact integer and rational certificates) that $N(18) \le 58$, narrowing $N(18)$ to $\{57, 58\}$. In dimension $19$, we prove that a system of $74$ equiangular lines in $\mathbb{R}^{19}$ exists if and only if there exists a strongly regular graph $\SRG(75, 32, 10, 16)$; combined with the theorem of Azarija and Marc (2018) ruling out $\SRG(75, 32, 10, 16)$, this establishes $N(19) \le 73$ and narrows $N(19)$ to $\{72, 73\}$. The boundary cases $(18, 58)$ and $(19, 73)$ remain open. Our classification rests on two general algebraic obstructions for Seidel matrices---an exact mod-$2^{n+1}$ Pfaffian congruence for odd order $n$ and a system of $\binom{e+1}{2}$ rational Galois orthogonality equations for simple degree-$e$ spectral factors---together with unique odd-order Eulerian switching congruences, De Caen--Jacobi resolvent pole cancellation, exact integer and rational arithmetic certificates, and a machine-checked Lean~4 formalization of the underlying theory and one-vertex Farkas infeasibility certificates for $(19, 74)$.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction and main results}\label{sec:intro}
+
+A family of $n$ lines through the origin in $\mathbb{R}^d$, spanned by unit vectors $v_1, \dots, v_n \in \mathbb{R}^d$, is \emph{equiangular} with common angle $\arccos\alpha$ ($0 \le \alpha < 1$) if $|\langle v_i, v_j \rangle| = \alpha$ for all $1 \le i < j \le n$. Determining $N(d)$, the maximum number of equiangular lines in $\mathbb{R}^d$, is a classical problem in discrete geometry and algebraic graph theory originating with Haantjes, van Lint--Seidel~\cite{vanLintSeidel1966}, and Lemmens--Seidel~\cite{LemmensSeidel1973}; see~\cite{Bukh2016,BDKS2018,JTYZZ2021} for asymptotic developments at fixed angle.
+
+In low dimensions ($d \le 23$), exact values of $N(d)$ are settled for all $d \le 17$ and $21 \le d \le 23$: Greaves, Syatriadi, and Yatsyna established $N(14) = 28$, $N(16) = 40$, $N(19) \le 74$, and $N(20) \le 94$ in~\cite{GSY2021}, and subsequently resolved $N(17) = 48$ while constructing $57$ equiangular lines in $\mathbb{R}^{18}$~\cite{GSY2023} (see also~\cite{LMTY2025,MSY2026} for root-overlattice classifications of $57$-line sets in $\mathbb{R}^{18}$). Greaves and Syatriadi~\cite{GS2024} proved $N(18) \le 59$, leaving
+\[
+  N(18) \in \{57, 58, 59\}, \qquad N(19) \in \{72, 73, 74\}, \qquad N(20) \in \{90, \dots, 94\},
+\]
+where $N(19) \ge 72$ and $N(20) \ge 90$ arise from Asche's Witt-design $S(5,8,24)$ configuration~\cite{Taylor1977,LinYu2020}. As noted in~\cite[\S 9]{GSY2023}, descending from $(18, 60)$ to $(18, 59)$ drops the forced multiplicity of the principal positive Seidel eigenvalue $\kappa = 11$ from $6$ to $1$, inflates the cofactor degree from $12$ to $17$, and replaces even-order Type-2 divisibility by odd-order weakly Type-2 divisibility. Meanwhile, multi-point semidefinite programming bounds~\cite{BargYu2014,deLaat2022,KaoYu2022} do not sharpen the relative bound below $d = 23$.
+
+In this letter we prove the nonexistence of $(18, 59)$ and establish the bidirectional equivalence of $(19, 74)$ with $\SRG(75, 32, 10, 16)$, with complete enumeration tables, verification software, and formal proof artifacts documented in the companion monograph~\cite{CompanionFull}.
+
+\begin{theorem}[Unconditional upper bound in $\mathbb{R}^{18}$]\label{thm:main18}
+There does not exist a system of $59$ equiangular lines in $\mathbb{R}^{18}$. Consequently, $N(18) \le 58$, and hence $N(18) \in \{57, 58\}$.
+\end{theorem}
+
+\begin{theorem}[Reduction to $\SRG(75, 32, 10, 16)$ and upper bound in $\mathbb{R}^{19}$]\label{thm:main19}
+A system of $74$ equiangular lines in $\mathbb{R}^{19}$ exists if and only if there exists a strongly regular graph $\SRG(75, 32, 10, 16)$; specifically, every hypothetical $(19, 74)$ Seidel matrix $S$ has characteristic polynomial $\chi_S(x) = (x+5)^{55}(x-15)^{17}(x-11)(x-9)$ and is switching-equivalent to a vertex-deleted principal submatrix of the Seidel matrix of an $\SRG(75, 32, 10, 16)$, and conversely deleting any vertex from an $\SRG(75, 32, 10, 16)$ yields $74$ equiangular lines in $\mathbb{R}^{19}$. Combined with the theorem of Azarija and Marc~\cite{AzarijaMarc2018} that no $\SRG(75, 32, 10, 16)$ exists, we have $N(19) \le 73$, and hence $N(19) \in \{72, 73\}$.
+\end{theorem}
+
+\begin{remark}[External dependency and open boundary pairs]\label{rem:open}
+We emphasize two sharp boundaries. First, we do not re-prove the computer-assisted nonexistence of $\SRG(75, 32, 10, 16)$ established by Azarija and Marc~\cite{AzarijaMarc2018} ($\approx 1.5 \times 10^5$ CPU hours via star complements); Theorem~\ref{thm:main19} proves the unconditional algebraic equivalence $(19, 74) \Longleftrightarrow \SRG(75, 32, 10, 16)$ and invokes~\cite{AzarijaMarc2018} explicitly for $N(19) \le 73$. Second, $(18, 58)$ and $(19, 73)$ remain open: their shifted trace deviations $\mathcal{T} = 84$ and $\mathcal{T} = 81$ exceed the multiplicity threshold ($\theta = 22 > d$), yielding only the trivial lower bound $m_\kappa \ge 0$ (no guaranteed root at $\kappa \in \{11, 15\}$) in characteristic polynomial enumeration. Extensive constructive and local-neighborhood searches (exact $k$-opt re-extension, root overlattices, $\mathbb{Z}_p$-equivariant Fourier blocks, CP-SAT neighborhoods, and spectral/Gram optimization) found no $(18, 58)$ or $(19, 73)$ configurations; as bounded or heuristic searches, these provide negative evidence only and do not establish general nonexistence.
+\end{remark}
+
+Two general theorems underlie both characteristic polynomial enumeration and spectral elimination. Let $S \in \mathbb{Z}^{n \times n}$ be a symmetric \emph{Seidel matrix} ($S^T = S$, $S_{ii} = 0$, $S_{ij} \in \{\pm 1\}$ for $i \neq j$), with characteristic polynomial $\chi_S(x) = \det(xI_n - S)$ and vertex-deleted submatrices $S_u := S[V \setminus \{u\}]$.
+
+\begin{theorem}[Odd-order mod-$2^{n+1}$ Pfaffian congruence]\label{thm:pfaffian}
+Let $S \in \mathbb{Z}^{n \times n}$ be a symmetric Seidel matrix of odd order $n \ge 1$. Then $2^{n-1} \mid \chi_S(2z - 1)$ in $\mathbb{Z}[z]$, and there exists a monic polynomial $Q_0(z) \in \mathbb{Z}[z]$ of degree $(n-1)/2$ such that
+\begin{equation}\label{eq:pfaffian}
+  \frac{1}{2^{n-1}}\,\chi_S(2z - 1) \equiv (2z - n)\,Q_0(z)^2 \pmod{4}.
+\end{equation}
+\end{theorem}
+
+\begin{theorem}[Generalized Galois orthogonality]\label{thm:galois}
+Let $S \in \mathbb{Z}^{n \times n}$ be a symmetric Seidel matrix and let $q(x) \in \mathbb{Z}[x]$ be a monic irreducible factor of $\chi_S(x)$ of multiplicity $1$ and degree $e \ge 2$, with number field $K := \mathbb{Q}[x]/(q(x))$ and generator $\bar{\lambda} = x \bmod q$. Write $\chi_S(x) = (x+5)^{n-d} f(x)$ and $\chi_{S_u}(x) = (x+5)^{n-d-1} f_u(x)$ when $(x+5)^{n-d} \mid \chi_S(x)$ (or with $(x+5)^0 = 1$ in general, $f_u = \chi_{S_u}$). Suppose $u_0 \in \{1, \dots, n\}$ satisfies $f_{u_0}(\bar{\lambda}) \neq 0$ in $K$, and suppose every $u \in \{1, \dots, n\}$ satisfies $f_u(\bar{\lambda})/f_{u_0}(\bar{\lambda}) = r_u^2$ for some fixed choice of $r_u \in K$ ($r_u = 0$ if $q \mid f_u$). Then for all $0 \le a \le b \le e - 1$,
+\begin{equation}\label{eq:galois}
+  \sum_{u=1}^n \Big(\Tr_{K/\mathbb{Q}}(\bar{\lambda}^a r_u)\,\Tr_{K/\mathbb{Q}}(\bar{\lambda}^b r_u) - \Tr_{K/\mathbb{Q}}(\bar{\lambda}^{a+b} r_u^2)\Big) = 0.
+\end{equation}
+\end{theorem}
+
+Throughout, $p_0, \dots, p_{168}$ denote the $169$ admissible characteristic polynomials $\chi_S(x) = (x+5)^{55} Q(x)$ for $(19, 74)$, and $q_0, \dots, q_{1213}$ denote the $1{,}214$ admissible characteristic polynomials $\chi_S(x) = (x+5)^{41} Q(x)$ for $(18, 59)$, indexed according to the complete enumeration tables in~\cite{CompanionFull}. Table~\ref{tab:funnel} summarizes the spectral eliminations for $(19, 74)$ and $(18, 59)$ alongside three calibration benchmarks reproducing published classifications.
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of spectral eliminations across $(19, 74)$, $(18, 59)$, and literature calibration benchmarks. All counts are certified in exact integer and rational arithmetic.}\label{tab:funnel}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lcrrrrrrl@{}}
+\toprule
+Case $(d,n)$ & $\kappa$ ($m_\kappa$) & Admissible & LP (Farkas) & Pfaffian / $K^\times$ / Extr. & Rem. & Eulerian / Gal. & Higher-order & Final outcome \\
+\midrule
+$(19, 74)$ & $15$ ($\ge 6$) & $169$ & $-147$ & $-15$ ($8+6+1$) & $7$ & $-2$ & $-4$ & $1$: $p_{136} \Leftrightarrow \SRG(75,32,10,16)$ \\
+$(18, 59)$ & $11$ ($\ge 1$) & $1{,}214$ & $-572$ & $-556$ ($0+552+4$) & $86$ & $-66$ & $-20$ & $0$ ($N(18) \le 58$ unconditional) \\
+\midrule
+$(19, 75)$ & $15$ ($\ge 12$) & $8^{\text{a}}$ & $-6$ & $-1$ (warranted) & $1$ & --- & --- & $\SRG(75,32,10,16)$ (matches~\cite{GSY2021}) \\
+$(18, 60)$ & $11$ ($\ge 6$) & $44$ & $-39$ & $-3$ ($1+1+1$) & $2$ & $-1$ & $-1$ & $0$ (cands.\ $11, 34$; matches~\cite{GS2024}) \\
+$(17, 49)$ & $9$ ($\ge 4$) & $109^{\text{b}}$ & $-84$ & $-16$ ($0+16+0$) & $9$ & $-5$ & $-4$ & $0$ (matches~\cite{GSY2023,BHMW1989}) \\
+\bottomrule
+\end{tabular}%
+}
+\par\vspace{3pt}
+\raggedright\scriptsize
+$^{\text{a}}$Unfiltered tree search gives $14$ polynomials, reduced to $8$ by $\mathcal{P}_{75,7}$ and Theorem~\ref{thm:pfaffian}, matching~\cite[Prop.~3.3]{GSY2021}.\\
+$^{\text{b}}$Under weakly Type-2 divisibility alone, tree search and $\mathcal{P}_{49,7}$ yield $2{,}291 \to 194$ candidates, matching~\cite[Lem.~3.6]{GSY2023}. Enforcing full odd-$n$ parity ($2^{2r}\mid e_{2r}$ on $Q(y-5)$, Proposition~\ref{prop:twoadic_val}) gives $704 \to 188$ ($6$ of the $194$ fail $2^8\mid e_8$), and Theorem~\ref{thm:pfaffian} yields $109$.
+\end{table}
+
+\section{Angle determination and the mod-\texorpdfstring{$2^{n+1}$}{2\^{}(n+1)} Pfaffian congruence}\label{sec:pfaffian}
+
+\subsection{Angle determination and spectral factorization}
+Suppose $v_1, \dots, v_n \in \mathbb{R}^d$ form an equiangular system with angle $\alpha \in [0, 1)$ and $n > 2d$. Then $n > d$ forces $\alpha > 0$, and the Gram matrix $G = (\langle v_i, v_j \rangle) = I_n + \alpha S$ yields a symmetric Seidel matrix $S \in \mathbb{Z}^{n \times n}$ such that $M := \alpha^{-1} I_n + S \succeq 0$ and $\rk_{\mathbb{R}}(M) \le d$ (conversely, spectral decomposition of any such $S$ reconstructs $v_1, \dots, v_n \in \mathbb{R}^d$).
+
+\begin{lemma}[Forcing $\alpha = 1/5$]\label{lem:phase1}
+Let $(d, n) \in \{(18, 58), (18, 59), (19, 73), (19, 74)\}$. Every equiangular system of $n$ lines in $\mathbb{R}^d$ has $\alpha = 1/5$, and its Seidel matrix $S$ satisfies $5I_n + S \succeq 0$, $\rk(5I_n + S) \le d$, and
+\begin{equation}\label{eq:charpoly_fac}
+  \chi_S(x) = (x + 5)^{n - d} Q(x),
+\end{equation}
+where $Q(x) \in \mathbb{Z}[x]$ is monic of degree $d$ with all roots real and in $[-5, \infty)$ (allowing $Q(-5) = 0$ when $\rk(5I_n + S) < d$), $\sum_{i=1}^d \lambda_i = 5(n - d)$, and $\sum_{i=1}^d \lambda_i^2 = n(n - 1) - 25(n - d)$.
+\end{lemma}
+
+\begin{proof}
+In all four pairs, $n > 2d$ ($58, 59 > 36$ and $73, 74 > 38$). Since $\dim\ker(\alpha^{-1}I_n + S) = n - \rk(M) \ge n - d > n/2 \ge 2$, the minimal polynomial of $-\alpha^{-1}$ over $\mathbb{Q}$ divides the monic polynomial $\chi_S \in \mathbb{Z}[x]$ with multiplicity $> n/2$, forcing $\alpha^{-1} = k \in \mathbb{Z}_{\ge 2}$ (Neumann's theorem~\cite{LemmensSeidel1973}). If $k$ were even, $S + kI_n \equiv J_n - I_n \pmod 2$ would have $\mathbb{F}_2$-rank $\ge n - 1$, contradicting nullity $\ge 2$; hence $k \ge 3$ is odd. Next, $k = 3$ is excluded by the Lemmens--Seidel theorem~\cite{LemmensSeidel1973}: $N_{1/3}(d) = 2(d - 1)$ for $d \ge 15$, giving $34 < 58$ and $36 < 73$. For $k \ge 7$, $\tr\big((\sum_i v_i v_i^T - \frac{n}{d}I_d)^2\big) \ge 0$ gives $(n - d)k^2 \le d(n - 1)$, whereas $49(n - d) \in \{1960, 2009, 2646, 2695\}$ strictly exceeds $d(n - 1) \in \{1026, 1044, 1368, 1387\}$. Thus $\alpha = 1/5$. Finally, $(x + 5)^{n - \rk(5I+S)} \mid \chi_S(x)$ with $n - \rk(5I+S) \ge n - d$; dividing by monic $(x+5)^{n-d}$ in $\mathbb{Z}[x]$ yields~\eqref{eq:charpoly_fac}, and $\tr(S) = 0$, $\tr(S^2) = n(n - 1)$ fix the first two power sums of $Q$.
+\end{proof}
+
+\subsection{\texorpdfstring{$2$-adic valuations and proof of Theorem~\ref{thm:pfaffian}}{2-adic valuations and proof of Theorem 1.4}}
+Write $S = J_n - I_n - 2A$ with symmetric zero-diagonal $A \in \{0, 1\}^{n \times n}$. Expanding $\chi_S(y - 1) = \det(yI_n + 2A) - \mathbf{1}^T \adj(yI_n + 2A)\mathbf{1} = \sum_{k=0}^n b_k y^{n-k}$ and pairing fixed-point-free permutations $\sigma \neq \sigma^{-1}$ on odd-sized principal minors of $A$ yields the classical Type-2 and weakly Type-2 valuations~\cite{GY2019,GSY2021}:
+
+\begin{proposition}[Parity dichotomy for $\chi_S(2z - 1)$]\label{prop:twoadic_val}
+For any $n \times n$ Seidel matrix $S$ ($n \ge 1$) and cofactor $Q$ in~\eqref{eq:charpoly_fac}:
+\begin{enumerate}
+  \item If $n$ is even, $2^k \mid b_k$ for all $k$, so $2^n \mid \chi_S(2z - 1)$ and $2^d \mid Q(2z - 1)$ in $\mathbb{Z}[z]$ (\emph{Strict Type~2}).
+  \item If $n$ is odd, $2^{2\lfloor k/2 \rfloor} \mid b_k$ for all $k \ge 3$ ($b_1 = -n, b_2 = 0$), so $2^{n-1} \mid \chi_S(2z - 1)$ and $2^{d-1} \mid Q(2z - 1)$ in $\mathbb{Z}[z]$ (\emph{Weakly Type~2}, with $2^{2r} \mid e_{2r}$ on even elementary symmetric shifts).
+\end{enumerate}
+\end{proposition}
+
+Combined with the multiplicity bound of Greaves, Syatriadi, and Yatsyna~\cite[Lem.~3.1]{GSY2021} at the odd integer $\kappa$ nearest $5(n-d)/d$, let $\mathcal{T} := \sum_{i=1}^d (\lambda_i - \kappa)^2 = n(n-1) - 25(n-d) - 10\kappa(n-d) + d\kappa^2$ and $\gamma(n) := n \bmod 2$. Applying AM--GM over primitive irreducible factors of $2^{-(d-\gamma(n))} Q(2w + \kappa) \in \mathbb{Z}[w]$ (at most one factor has leading coefficient $2$ when $\gamma(n) = 1$) bounds the number $\eta$ of roots $\lambda_i \neq \kappa$ by $\eta\,4^{(\eta - \gamma(n))/\eta} \le \mathcal{T}$:
+\begin{itemize}
+  \item For $(19, 74)$ ($\gamma = 0, \kappa = 15$): $\mathcal{T} = 52 \implies 4\eta \le 52 \implies \eta \le 13$, forcing $(x - 15)^6 \mid Q(x)$.
+  \item For $(18, 59)$ ($\gamma = 1, \kappa = 11$): $\mathcal{T} = 65$; since $18 \cdot 4^{17/18} > 65$ ($\theta = 18$), $\eta \le 17$, forcing $(x - 11)^1 \mid Q(x)$ (exact multiplicity $\ge 1$, \emph{not} $\ge 2$, as $17^{17} \cdot 4^{16} < 65^{17}$).
+  \item For $(18, 60)$ and $(17, 49)$: $(x - 11)^6 \mid Q(x)$ ($\mathcal{T} = 48$) and $(x - 9)^4 \mid Q(x)$ ($\mathcal{T} = 49$), respectively; whereas $(18, 58)$ ($\mathcal{T} = 84$) and $(19, 73)$ ($\mathcal{T} = 81$) give $\theta = 22 > d$, yielding only the trivial lower bound $m_\kappa \ge 0$ (no guaranteed root at $\kappa$).
+\end{itemize}
+
+\begin{proof}[Proof of Theorem~\ref{thm:pfaffian}]
+If $n = 1$, then $S = (0)$ and $2^0 \chi_S(2z - 1) = 2z - 1 = (2z - 1) Q_0(z)^2$ with monic $Q_0(z) = 1$ of degree $0$. Assume now that $n = 2m + 1 \ge 3$.
+
+\emph{Step 1 (Eulerian switching).} Write $S = J_n - I_n - 2A$, and let $U \subseteq \{1, \dots, n\}$ be the set of odd-degree vertices of the graph $A$. By the handshaking lemma, $|U|$ is even, so $|U^c| = n - |U|$ is odd. Conjugating $S$ by $\diag(\delta_1, \dots, \delta_n)$ ($\delta_i = -1 \iff i \in U$) preserves $\chi_S(x)$ and changes vertex degrees modulo $2$ by $|U^c| \equiv 1$ on $U$ and $|U| \equiv 0$ on $U^c$. Thus we may assume $A\mathbf{1} = 2w$ for some $w \in \mathbb{Z}^n$, with $\mathbf{1}^T w = |E(A)|$.
+
+\emph{Step 2 (Basis reduction modulo $2^{n+1}$).} Set $M(z) := (2z - 1)I_n - S = 2(zI_n + A) - J_n$ and $P := [\mathbf{1}, e_2 - e_1, \dots, e_n - e_1] \in \mathbb{Z}^{n \times n}$. Adding rows $2, \dots, n$ to row $1$ makes $P$ upper-triangular with diagonal $(n, 1, \dots, 1)$, so $\det P = n$. Writing $V := [e_2 - e_1, \dots, e_n - e_1] \in \mathbb{Z}^{n \times 2m}$ ($V^T \mathbf{1} = 0$) and $A\mathbf{1} = 2w$ gives
+\[
+  P^T M(z) P = \begin{pmatrix} n(2z - n) + 4|E(A)| & 4 w^T V \\ 4 V^T w & 2 B(z) \end{pmatrix}, \qquad B(z) := V^T (zI_n + A) V \in \mathbb{Z}[z]^{2m \times 2m}.
+\]
+In the Laplace expansion of $\det(P^T M(z) P)$ along row $1$ and column $1$, every term choosing an off-diagonal entry $4(w^T V)_j$ and $4(V^T w)_i$ multiplies a $(2m - 1) \times (2m - 1)$ minor of $2B(z)$, which is divisible by $4 \cdot 4 \cdot 2^{2m-1} = 2^{n+2}$. Since $4|E(A)| \cdot 2^{2m} \det B(z) = 2^{n+1}|E(A)|\det B(z) \equiv 0 \pmod{2^{n+1}}$, we obtain unconditionally
+\begin{equation}\label{eq:laplace_mod}
+  n^2 \chi_S(2z - 1) = \det(P^T M(z) P) \equiv 2^{n-1} n(2z - n) \det B(z) \pmod{2^{n+1}}.
+\end{equation}
+
+\emph{Step 3 (Pfaffian perturbation modulo $4$).} Note $B(z)$ is symmetric of even order $2m$, with even diagonal entries $B(z)_{ii} = (e_{i+1} - e_1)^T(zI_n + A)(e_{i+1} - e_1) = 2z - 2A_{1, i+1}$. Define the skew-symmetric matrix $K(z) \in \mathbb{Z}[z]^{2m \times 2m}$ by $K_{ii} = 0$, $K_{ij} = B_{ij}$ ($i < j$), and $K_{ij} = -B_{ij}$ ($i > j$). Then $B(z) = K(z) + 2L(z)$, where $L_{ij} = 0$ ($i < j$), $L_{ii} = B_{ii}/2$, and $L_{ij} = B_{ij} \equiv K_{ij} \pmod 2$ ($i > j$). Expanding $\det(K + 2L)$ modulo $4$ yields
+\[
+  \det B(z) \equiv \det K(z) + 2\tr\!\big(\adj(K(z)) L(z)\big) \pmod{4}.
+\]
+Because $K(z)$ is skew-symmetric of even order $2m$, $\det K(z) = \Pf(K(z))^2$; moreover, the leading coefficient of $K(z)$ is the skew-symmetric matrix $K_\infty$ with $(K_\infty)_{ij} = +1$ for $i < j$, which has $\Pf(K_\infty) = 1$, so $Q_0(z) := \Pf(K(z)) \in \mathbb{Z}[z]$ is monic of degree $m = (n-1)/2$. Furthermore, $\adj(K)^T = -\adj(K)$ and $\adj(K)_{ii} = 0$ (odd-order skew-symmetric minors vanish), whence in $\mathbb{Z}[z]$:
+\[
+  2m \det K = \tr(\adj(K) K) = 2 \sum_{i > j} \adj(K)_{ji} K_{ij} \implies \sum_{i > j} \adj(K)_{ji} L_{ij} \equiv m \det K \pmod{2}.
+\]
+Thus $\det B(z) \equiv (1 + 2m)\det K(z) = n\,Q_0(z)^2 \pmod 4$. Substituting into~\eqref{eq:laplace_mod}, dividing by $2^{n-1}$, and canceling the odd unit $n^2 \equiv 1 \pmod 8$ modulo $4$ yields~\eqref{eq:pfaffian}.
+\end{proof}
+
+\begin{corollary}[Mod-$4$ coefficient constraints on $(18, 59)$ and vertex-deletion lifting]\label{cor:cor43}
+For $(18, 59)$ ($z = w + 6$, $\chi_S(x) = (x+5)^{41}(x-11)\phi(x)$), reducing~\eqref{eq:pfaffian} modulo $4$ gives $2^{-16}\phi(2w + 11) \equiv (2w + 1)\tilde{Q}(w)^2 \pmod 4$ ($\deg\tilde{Q} = 8$), uniquely determining $c_k \bmod 4$ for all lower coefficients $10 \le k \le 17$. Under one-vertex deletion $S \mapsto S_v$:
+\begin{enumerate}
+  \item For even $n \to \text{odd } n-1$ (e.g.\ $74 \to 73$), every $\chi_{S_v}$ must satisfy Theorem~\ref{thm:pfaffian} at odd order $n - 1$ ($2^{72}$ divisibility together with the mod-$4$ square class $(2z-73)Q_0(z)^2$).
+  \item For odd $n \to \text{even } n-1$ (e.g.\ $59 \to 58$), every $\chi_{S_v}$ has even order $58$ and satisfies Proposition~\ref{prop:twoadic_val}(1) ($2^{58} \mid \chi_{S_v}(2z-1)$, Strict Type~2).
+\end{enumerate}
+\end{corollary}
+
+\begin{remark}[Hensel $2$-adic unit-eigenvector congruence and Strict Type~2]\label{rem:weaponb}
+For odd $n$, $\chi_S(x) \equiv x(x+1)^{n-1} \pmod 2$ lifts via Hensel's lemma to a unique simple $2$-adic root $\lambda_0 \in 2\mathbb{Z}_2$ whose primitive $2$-adic eigenvector lies in $(\mathbb{Z}_2^\times)^n$, forcing $\chi_{S_u}(\lambda_0) \equiv \chi_S'(\lambda_0) n^{-1} \pmod 8$ for all $u$. However, expanding $g(x) = 2^{n-1} P((x+1)/2)$ with $c_1 = 0, c_2 = -\binom{n-1}{2}$ shows that \emph{every} Strict Type-2 polynomial satisfies $g(\lambda_0) \equiv (\lambda_0+1)^{n-2}(\lambda_0+2-n) \pmod 8$ identically, so this $2$-adic Hensel congruence is automatically implied by Strict Type~2 on $(18, 59)$ and $(17, 49)$~\cite{CompanionFull}.
+\end{remark}
+
+\section{Eulerian switching gauge, Galois orthogonality, and \texorpdfstring{$\SRG(75,32,10,16)$}{SRG(75,32,10,16)}}\label{sec:galois_srg}
+
+\subsection{Odd-order Eulerian switching gauge}
+\begin{proposition}[Unique odd-$n$ Eulerian gauge and mod-$4$ polynomial law]\label{prop:eulerian}
+Let $S \in \mathbb{Z}^{n \times n}$ be a symmetric Seidel matrix of \emph{odd} order $n$.
+\begin{enumerate}
+  \item There exists a strictly unique Seidel matrix $S_\varepsilon = D S D$ in the switching class of $S$ (with $D = \diag(\pm 1)$ unique up to $\pm D$) such that $S_\varepsilon \mathbf{1} \equiv (n - 1)\mathbf{1} \pmod 4$.
+  \item In this gauge, $S_\varepsilon^2 \equiv I_n + (n - 2)J_n \pmod 4$, and for any $P(x) \in \mathbb{Z}[x]$ with $p_{\mathrm{ev}} := \frac{P(1)+P(-1)}{2}$, $p_{\mathrm{od}} := \frac{P(1)-P(-1)}{2}$,
+  \[
+    P(S_\varepsilon) \equiv p_{\mathrm{ev}} I_n + p_{\mathrm{od}} S_\varepsilon + (n - 2)\big[(p_{\mathrm{ev}} - P(0)) + (n - 1)(p_{\mathrm{od}} - P'(0))\big] J_n \pmod{4}.
+  \]
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Existence follows from Step~1 of Theorem~\ref{thm:pfaffian}. If two switchings differ across a cut $(T, T^c)$ with $\emptyset \subsetneq T \subsetneq \{1,\dots,n\}$, degree parities shift by $|T^c| \bmod 2$ on $T$ and $|T| \bmod 2$ on $T^c$; since $|T| + |T^c| = n$ is odd, one side becomes odd-degree, proving strict uniqueness of $S_\varepsilon$. (For even $n$, $|T| \equiv |T^c| \pmod 2$, so Proposition~\ref{prop:eulerian} fails and does \emph{not} apply to even-order submatrices such as $n_v = 58$.) Writing $S_\varepsilon = J_n - I_n - 2A_\varepsilon$ with $A_\varepsilon\mathbf{1} = 2w$ gives $S_\varepsilon^2 = I_n + (n-2)J_n - 4(\mathbf{1}w^T + w\mathbf{1}^T - A_\varepsilon - A_\varepsilon^2) \equiv I_n + (n-2)J_n \pmod 4$; induction using $(n-1)^2 \equiv 0 \pmod 4$ and $S_\varepsilon J_n \equiv (n-1)J_n \pmod 4$ yields $S_\varepsilon^{2m} \equiv I_n + (n-2)J_n$ and $S_\varepsilon^{2m+1} \equiv S_\varepsilon + (n-2)(n-1)J_n \pmod 4$ for $m \ge 1$, giving~(2).
+\end{proof}
+
+Evaluating Proposition~\ref{prop:eulerian}(2) on $M := \mathrm{Mult}(S_\varepsilon)$ and $N := S_\varepsilon M$ (where $\chi_S = \gcd(\chi_S, \chi_S') \cdot \mathrm{Sim} \cdot \mathrm{Mult}$) restricts diagonal residues $M_{uu} \bmod 4$, determines off-diagonal block entries $(M_{ab}, N_{ab})$, and imposes integer row-sum symmetry $K = K^T$ across one-vertex spectral classes.
+
+\subsection{Proof of Theorem~\ref{thm:galois} and multiplicity-preserving submatrix extraction}
+By Jacobi's $2$-vertex identity on $xI_n - S$,
+\begin{equation}\label{eq:jacobi2}
+  \chi_{S_u}(x)\chi_{S_v}(x) - \chi_S(x)\chi_{S_{uv}}(x) = \big(\adj(xI_n - S)_{uv}\big)^2 \quad \text{in } \mathbb{Z}[x].
+\end{equation}
+
+\begin{proof}[Proof of Theorem~\ref{thm:galois}]
+Let $\lambda_1, \dots, \lambda_e \in \mathbb{R}$ be the distinct real roots of the simple irreducible factor $q(x) \mid \chi_S(x)$, with unit eigenvectors $v^{(1)}, \dots, v^{(e)} \in \mathbb{R}^n$ satisfying $\langle v^{(k)}, v^{(\ell)} \rangle = \delta_{k\ell}$ and $(v^{(k)}_u)^2 = \chi_{S_u}(\lambda_k)/\chi_S'(\lambda_k)$. Since $f_{u_0}(\bar{\lambda}) \neq 0$ and $\lambda_k \neq -5$, $v^{(k)}_{u_0} \neq 0$ for all $k$. Factoring out $(x+5)^{2(n-d-1)}$ from~\eqref{eq:jacobi2} gives $g_{u, u_0}(x)^2 \equiv f_u(x) f_{u_0}(x) \pmod{q(x)}$ for $g_{u, u_0} \in \mathbb{Z}[x]$. In the field $K = \mathbb{Q}[x]/(q(x))$, we have $(g_{u, u_0}(\bar{\lambda}) / f_{u_0}(\bar{\lambda}))^2 = f_u(\bar{\lambda})/f_{u_0}(\bar{\lambda}) = r_u(\bar{\lambda})^2$, so $g_{u, u_0}(\bar{\lambda})/f_{u_0}(\bar{\lambda}) = \eta_u r_u(\bar{\lambda})$ for a sign $\eta_u \in \{+1, -1\} \subset \mathbb{Q}$ (take $\eta_u = 1$ if $r_u = 0$). Applying the $e$ field embeddings $K \hookrightarrow \mathbb{R}$ ($\bar{\lambda} \mapsto \lambda_k$) preserves $\eta_u \in \mathbb{Q}$, so $v^{(k)}_u v^{(k)}_{u_0} = (E_{\lambda_k})_{u, u_0} = \eta_u r_u(\lambda_k) (v^{(k)}_{u_0})^2$, i.e.\ $v^{(k)}_u = \eta_u r_u(\lambda_k) v^{(k)}_{u_0}$ for every $1 \le k \le e$. For $k \neq \ell$, orthogonality $\langle v^{(k)}, v^{(\ell)} \rangle = 0$ and $\eta_u^2 = 1$ give $\sum_{u=1}^n r_u(\lambda_k) r_u(\lambda_\ell) = 0$. Consequently,
+\begin{align*}
+  \sum_{u=1}^n \Tr_{K/\mathbb{Q}}(\bar{\lambda}^a r_u)\Tr_{K/\mathbb{Q}}(\bar{\lambda}^b r_u)
+  &= \sum_{k,\ell=1}^e \lambda_k^a \lambda_\ell^b \sum_{u=1}^n r_u(\lambda_k) r_u(\lambda_\ell) \\
+  &= \sum_{k=1}^e \lambda_k^{a+b} \sum_{u=1}^n r_u(\lambda_k)^2
+  = \sum_{u=1}^n \Tr_{K/\mathbb{Q}}(\bar{\lambda}^{a+b} r_u^2),
+\end{align*}
+proving~\eqref{eq:galois}. (Note that factors $q$ with $\mult_q(\chi_S) \ge 2$ have higher-rank projectors and are excluded from~\eqref{eq:galois}.)
+\end{proof}
+
+We also strengthen vertex-extraction~\cite[Lem.~2.10]{GS2024} to include multiplicity-preserving deletions:
+
+\begin{proposition}[Multiplicity-preserving submatrix extraction]\label{prop:prop61}
+Let $\lambda$ be an eigenvalue of $S$ of multiplicity $m = \mult_\lambda(S)$, and let $I := \{v : \mult_\lambda(S_v) \ge m\}$ have size $k < n$. Then $\mult_\lambda(S[I^c]) \ge m$, while every $\mu \neq \lambda$ satisfies $\mult_\mu(S[I^c]) \ge \max(0, \mult_\mu(S) - k)$.
+\end{proposition}
+
+\begin{proof}
+If some $z \in \ker(S - \lambda I_n)$ had $z_v \neq 0$ for $v \in I$, column $v$ (and row $v$) of $S - \lambda I_n$ would lie in the span of the remaining $n-1$ columns (rows), giving $\rk(S_v - \lambda I_{n-1}) = \rk(S - \lambda I_n) = n - m$ and $\mult_\lambda(S_v) = m - 1 < m$, contradiction. Thus every $z \in \ker(S - \lambda I_n)$ vanishes on $I$ and restricts injectively to $\ker(S[I^c] - \lambda I_{n-k})$. Cauchy interlacing bounds $\mult_\mu(S[I^c])$.
+\end{proof}
+
+\subsection{Bidirectional equivalence of \texorpdfstring{$p_{136}$}{p\_136} with \texorpdfstring{$\SRG(75, 32, 10, 16)$}{SRG(75, 32, 10, 16)}}
+\begin{proof}[Proof of Theorem~\ref{thm:main19} for $p_{136}$]
+Let $p_{136}(x) := (x+5)^{55}(x-15)^{17}(x-11)(x-9)$.
+
+($\Rightarrow$) Suppose a $74 \times 74$ Seidel matrix $S$ has $\chi_S = p_{136}$, with orthogonal eigenprojectors $E_\lambda$. Set $R := \frac{1}{2}(75 I_{74} + 10 S - S^2)$. Evaluating $\frac{1}{2}(75 + 10x - x^2)$ on $\{-5, 15, 11, 9\}$ gives $\{0, 0, 32, 42\}$, so $R = 32 E_{11} + 42 E_9 \succeq 0$ has rank $2$. Since $(S^2)_{ii} = 73$ and $(S^2)_{ij} = \sum_{k \neq i,j} S_{ik}S_{kj} \equiv 72 \equiv 0 \pmod 2$ ($i \neq j$), $R \in \mathbb{Z}^{74 \times 74}$ with $R_{ii} = 1$, and $2 \times 2$ minors of $R \succeq 0$ force $R_{ij} \in \{-1, 0, 1\}$. Factoring $R = U^T U$ ($U \in \mathbb{R}^{2 \times 74}$ of unit columns with inner products in $\{-1, 0, 1\}$) partitions $\{1, \dots, 74\} = V_1 \sqcup V_2$ along two orthogonal axes; switching $S' = DSD$ aligns $U$ with $+e_1, +e_2$ so $R' = J_{|V_1|} \oplus J_{|V_2|}$, forcing $\{|V_1|, |V_2|\} = \{32, 42\}$. Since $R' = 32 E'_{11} + 42 E'_9$ commutes with $S'$, its eigenvectors $w_1 = (\mathbf{1}_{32}, \mathbf{0}_{42})^T$ and $w_2 = (\mathbf{0}_{32}, \mathbf{1}_{42})^T$ satisfy $S' w_1 = 11 w_1$ and $S' w_2 = 9 w_2$. Bordering $S'$ by $w := (-\mathbf{1}_{32}, \mathbf{1}_{42})^T$, let $S_{75} := \left(\begin{smallmatrix} 0 & w^T \\ w & S' \end{smallmatrix}\right)$. Using $(S')^2 = 75I_{74} + 10S' - 2(J_{32} \oplus J_{42})$ and $w w^T = 2(J_{32} \oplus J_{42}) - J_{74}$, direct block multiplication gives $S_{75}\mathbf{1}_{75} = 10\mathbf{1}_{75}$ and $S_{75}^2 = 75I_{75} + 10S_{75} - J_{75}$. Thus $A_{75} := \frac{1}{2}(J_{75} - I_{75} - S_{75}) \in \{0, 1\}^{75 \times 75}$ satisfies $A_{75}\mathbf{1}_{75} = 32\mathbf{1}_{75}$ and $A_{75}^2 = 32I_{75} + 10A_{75} + 16(J_{75} - I_{75} - A_{75})$, realizing $\SRG(75, 32, 10, 16)$.
+
+($\Leftarrow$) Conversely, let $A_{75}$ be an $\SRG(75, 32, 10, 16)$ and $S_{75} = J_{75} - I_{75} - 2A_{75}$, so $S_{75}\mathbf{1}_{75} = 10\mathbf{1}_{75}$ and $S_{75}^2 = 75I_{75} + 10S_{75} - J_{75}$. Deleting any vertex $\infty$ (with $32$ neighbors $V_1$ and $42$ non-neighbors $V_2$, border $w = (-\mathbf{1}_{32}, \mathbf{1}_{42})^T$) leaves a $74 \times 74$ Seidel matrix $S$ satisfying $\frac{1}{2}(75I_{74} + 10S - S^2) = \frac{1}{2}(J_{74} + w w^T) = J_{32} \oplus J_{42}$, $S w_1 = 11 w_1$, $S w_2 = 9 w_2$, and $(S + 5I)(S - 15I) = 0$ on $\ker(J_{32} \oplus J_{42})$ (dimension $72$). From $\tr(S) = 0 = 11 + 9 + 15 m_{15} - 5 m_{-5}$ and $m_{15} + m_{-5} = 72$, we get $m_{15} = 17$ and $m_{-5} = 55$, so $5I_{74} + S \succeq 0$ has rank $19$ and $\chi_S = p_{136}$.
+\end{proof}
+
+\section{Higher-order spectral obstructions and elimination of \texorpdfstring{$p_{13}$}{p\_13}}\label{sec:phase3}
+
+After one-vertex interlacing compatibility, Eulerian switching congruences, and Galois orthogonality (Table~\ref{tab:funnel}), $7$ candidate spectra remain in $(19, 74)$ (listed in Table~\ref{tab:surv19_74}) and $20$ structural cases remain in $(18, 59)$ (listed in Table~\ref{tab:surv18_59}). Coupled one- and two-vertex Farkas duals, Proposition~\ref{prop:prop61}, and vertex-deleted $S_v$-Galois compatibility rule out $p_{74}, p_{134}, p_6, p_{24}$ in $(19, 74)$ and $15$ of the $20$ remaining candidates in $(18, 59)$. Below we prove the structural eliminations for $p_{47}$, $q_{861}$, and $q_{488}$ (including both the interlacing-to-block derivations and the spectral contradictions), summarize $q_{441}, q_{692}, q_{864}$, and establish the exact rational elimination of $p_{13}$.
+
+\begin{table}[htbp]
+\centering
+\caption{Complete disposition of the $7$ remaining candidate spectra for $(19, 74)$ ($\chi_S(x) = (x+5)^{55} Q(x)$).}\label{tab:surv19_74}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}rrrl>{\raggedright\arraybackslash}p{2.3in}@{}}
+\toprule
+Index & $s$ & $|\Deck|$ & Factored cofactor $Q(x)$ & Elimination or reduction \\
+\midrule
+$6$ & $5$ & $9$ & $(x-17)^3(x-15)^9(x-13)^6(x-11)$ & $6$ Galois sols $\to 0$ ($2$-vertex Jacobi + odd-$73$ Farkas) \\
+$13$ & $4$ & $6$ & $(x-17)(x-15)^{15}(x-11)^3$ & $74 \to 21 \to \{S_1,S_2,S_3\} \to 0$ (exact $\mathbb{Q}$ analysis, \S\ref{sec:phase3}) \\
+$24$ & $6$ & $7$ & $(x-17)(x-15)^9(x-13)^3(x^2-28x+191)^3$ & $4$ Galois sols $\to 0$ (Cauchy $2$-vertex + odd-$73$ Farkas + $E_{17}$) \\
+$47$ & $5$ & $3$ & $(x-15)^{12}(x-11)(x^2-28x+191)^3$ & Unique $[52,16,6]$: $WB+BX=10B \Rightarrow 928 \le 896$ (Prop.~\ref{prop:kills47_861_488}) \\
+$74$ & $5$ & $27$ & $(x-15)^{13}(x-13)^4(x^2-28x+179)$ & Odd-$73$ submatrix Galois RREF: $2(x_1+x_4)=29$ \\
+$134$ & $5$ & $18$ & $(x-17)(x-15)^{14}(x-13)^3(x-9)$ & Exact $2$-vertex Jacobi ($2^{72}$ + algebraic interlacing $\to 0$) \\
+$136$ & $4$ & $2$ & $(x-15)^{17}(x-11)(x-9)$ & Unique $[32,42] \Longleftrightarrow \SRG(75,32,10,16)$ (Thm.~\ref{thm:main19};~\cite{AzarijaMarc2018}) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Complete accounting of the $20$ remaining structural cases for $(18, 59)$ ($86 - 66 = 20$).}\label{tab:surv18_59}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.25in}>{\raggedright\arraybackslash}p{1.15in}>{\raggedright\arraybackslash}p{3.45in}@{}}
+\toprule
+Candidate indices & Obstruction & Exact certificate summary \\
+\midrule
+151, 341, 800, 997, 1113, 1164 ($6$ cands) & Coupled Farkas / Prop.~\ref{prop:prop61} & Prop.~\ref{prop:prop61} rules out $q_{151}$ ($2{,}832$), $q_{341}$ ($12$), $q_{997}$ ($58$); coupled $1$-/$2$-vertex integer Farkas duals eliminate $q_{800}$ ($41$ duals), $q_{1113}$ ($24$ duals), $q_{1164}$ ($12+1$ duals). \\
+103, 228, 316, 319, 364, 603, 651, 705, 978 ($9$ cands) & Two-vertex Farkas + $S_v$-Galois & Exact $59 \to 58 \to 57$ Farkas duals and $S_v$ $K^\times/(K^\times)^2$ invariants rule out $q_{103}$ ($21$), $q_{228}$ ($499$), $q_{316}$ ($948$: $468$ $2$-vertex + $449$ $S_v$), $q_{319}$ ($32$), $q_{364}$ ($7$), $q_{603}$ ($68$), $q_{651}$ ($5{,}970$), $q_{705}$ ($19{,}975$ cone-$0$ + $25$ coupled cones $1$--$5$), $q_{978}$ ($67$). \\
+861, 441, 488, 692, 864 ($5$ cands) & Projector / commutator / resolvent & $q_{861}$: $XY+YZ=8Y \Rightarrow 840 \le 648$; $q_{488}$: $\rk E_{11}[B,B] \ge 10 > 7$ (Prop.~\ref{prop:kills47_861_488}); $q_{441}$: unique $E_{15}$ $3$-clique frame $[18,16,15]$ violates $E_{15}v_{10}=0$; $q_{692}$: De Caen--Jacobi $H = 4C_4+P_3 \Rightarrow \mathbb{F}_2^4$ parity $\sum w_3 = 0 \neq 16$; $q_{864}$: $E_9$ $(7,7,7)$ clustering + $63 E_{13}$ Cauchy--Schwarz across all $3$ remaining count vectors~\cite{CompanionFull}. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Block-commutator and projector rank obstructions (\texorpdfstring{$p_{47}$, $q_{861}$, and $q_{488}$}{p\_47, q\_861, and q\_488})}
+
+\begin{lemma}[Shared block-commutator reduction]\label{lem:commutator}
+Let $M = \left(\begin{smallmatrix} A & B \\ B^T & C \end{smallmatrix}\right)$ be real symmetric with $AB + BC = c B$ ($c \in \mathbb{R}$). Then $(B^T B) C = C (B^T B)$, so each eigenspace $\ker(B^T B - \sigma^2 I)$ admits a simultaneous orthonormal eigenbasis for $B^T B$ and $C$. Every common unit eigenvector $e$ with $B^T B e = \sigma^2 e$ ($\sigma^2 > 0$) and $C e = \mu e$ produces two distinct eigenvalues $\alpha > \beta$ of $M$ satisfying $\alpha + \beta = c$ and $\alpha\beta = (c - \mu)\mu - \sigma^2$, i.e.\ $\sigma^2 = (c - \mu)\mu - \alpha(c - \alpha)$.
+\end{lemma}
+
+\begin{proof}
+Since $BC = cB - AB$, $B^T B C = c B^T B - B^T A B$ is symmetric, hence equals $(B^T B C)^T = C B^T B$. If $B^T B e = \sigma^2 e$ ($\sigma > 0$) and $Ce = \mu e$, then $u_1 := Be \neq 0$ satisfies $A u_1 = (c - \mu) u_1$ and $B^T u_1 = \sigma^2 e$, so $\mathrm{span}\{(u_1, 0), (0, e)\}$ is $M$-invariant with $2 \times 2$ action $\left(\begin{smallmatrix} c-\mu & \sigma \\ \sigma & \mu \end{smallmatrix}\right)$, trace $c$, and determinant $(c-\mu)\mu - \sigma^2$.
+\end{proof}
+
+\begin{proposition}[Elimination of $p_{47}$ for $(19, 74)$ and $q_{861}, q_{488}$ for $(18, 59)$]\label{prop:kills47_861_488}
+No Seidel matrix realizes $p_{47}$ in $(19, 74)$ or $q_{861}, q_{488}$ in $(18, 59)$:
+\begin{enumerate}
+  \item \emph{Candidate $p_{47}$ of $(19, 74)$, $\chi_S(x) = (x+5)^{55}(x-15)^{12}(x-11)(x^2 - 28x + 191)^3$:}
+  \emph{Step~1 (Block structure from interlacing):} Theorem~\ref{thm:pfaffian} leaves $3$ vertex-deletion polynomials with unique nonnegative integer counts $(n_0, n_1, n_2) = (52, 16, 6)$ (by RREF of $\sum_u \chi_{S_u} = \chi_S'$). Evaluating $\chi_{S_u}(11)/\chi_S'(11)$ yields $(0, \frac{1}{16}, 0)$, so the unit $11$-eigenvector is supported solely on $C_1$ ($|C_1| = 16$); switching aligns $v_{11} = \frac{1}{4}(\mathbf{0}_{58}, \mathbf{1}_{16})^T$, giving $S = \left(\begin{smallmatrix} W & B \\ B^T & X \end{smallmatrix}\right)$ with $X\mathbf{1}_{16} = 11\mathbf{1}_{16}$ and $B\mathbf{1}_{16} = \mathbf{0}_{58}$. Exact $2$-vertex Jacobi~\eqref{eq:jacobi2} on pairs $(0,1)$ ($4$ solutions) and $(1,2)$ ($2$ solutions) forces $(S^2)_{wu} = 10 S_{wu}$ for all $w \in C_0 \cup C_2$, $u \in C_1$, i.e.\ $WB + BX = 10B$.
+
+  \emph{Step~2 (Spectral contradiction):} Apply Lemma~\ref{lem:commutator} with $c = 10$ on $\mathbf{1}_{16}^\perp$. In $\mathrm{Spec}(S) = \{-5, 11, 15, 14 \pm \sqrt{5}\}$, the only pair summing to $10$ is $\{-5, 15\}$ ($\alpha\beta = -75$, noting $2(14) = 28 \neq 10$), so every mode $e_i \in \mathbf{1}_{16}^\perp$ with $\sigma_i^2 > 0$ satisfies $\sigma_i^2 = 75 + 10\mu_i - \mu_i^2$. On $K_0 := \ker(B^T B) \cap \mathbf{1}_{16}^\perp$ ($S$-invariant), every eigenvalue $\mu_i$ lies in $\mathrm{Spec}(S)$; since $X = J_{16} - I_{16} - 2A_1$ has $X\mathbf{1}_{16} = 11\mathbf{1}_{16}$, $A_1$ is $2$-regular, so $\mathrm{Spec}(X|_{\mathbf{1}^\perp}) \subseteq [-5, 3]$ meets $\mathrm{Spec}(S)$ only at $\mu_i = -5$, where $75 + 10(-5) - 25 = 0 = \sigma_i^2$. Using $\tr(X) = 0 \implies \sum_{i=1}^{15}\mu_i = -11$ and $\tr(X^2) = 240 \implies \sum_{i=1}^{15}\mu_i^2 = 240 - 121 = 119$, we obtain
+  \[
+    928 = 58 \cdot 16 = \|B\|_F^2 = \tr(B^T B) \le \sum_{i=1}^{15} (75 + 10\mu_i - \mu_i^2) = 1125 - 110 - 119 = 896,
+  \]
+  a contradiction.
+
+  \item \emph{Candidate $q_{861}$ of $(18, 59)$, $\chi_S(x) = (x+5)^{41}(x-13)^8(x-11)^5(x-9)^3(x^2 - 19x + 82)$:}
+  \emph{Step~1 (Block structure from interlacing):} Partitioning $\Deck(\chi_S)$ into square classes over $\mathbb{Q}(\sqrt{33})$ gives the unique one-vertex multiplicity vector $[(4, 30), (5, 1), (9, 28)]$. Proposition~\ref{prop:eulerian} on $\mathrm{Mult}(x)$ uniquely fixes the $3 \times 3$ blocks $M_{\mathrm{blk}}, N_{\mathrm{blk}}$ and forces the Eulerian quotient $K = \left(\begin{smallmatrix} 5 & 1 & 0 \\ 30 & 0 & 28 \\ 0 & 1 & 9 \end{smallmatrix}\right)$; in particular, the unique vertex $u_1$ of type~$5$ has $(S_\varepsilon)_{u_1, v} = +1$ for all $v \neq u_1$ and $\chi_{S_{u_1}}(x) = (x+5)^{40}(x-5)(x-9)^4(x-11)^5(x-13)^8$. Exact $2$-vertex Jacobi on $(4, 9)$ combined with $(S_\varepsilon^2)_{uw} \equiv 57 \equiv 1 \pmod 4$ leaves only $(S_{uw}, (S_\varepsilon^2)_{uw}) \in \{(1, 9), (-1, -7)\}$, i.e.\ $(S_\varepsilon^2)_{uw} = 1 + 8(S_\varepsilon)_{uw}$; since $(S_\varepsilon^2)_{uw} = (S_\varepsilon)_{u,u_1}(S_\varepsilon)_{u_1,w} + (S_{u_1}^2)_{uw} = 1 + (XY + YZ)_{uw}$, this forces $XY + YZ = 8Y$ on $S_{u_1} = \left(\begin{smallmatrix} X_{30\times 30} & Y_{30\times 28} \\ Y^T & Z_{28\times 28} \end{smallmatrix}\right)$.
+
+  \emph{Step~2 (Spectral contradiction):} By Lemma~\ref{lem:commutator} ($c = 8$), every singular mode $\sigma_i^2 > 0$ of $Y$ produces eigenvalues $\alpha + \beta = 8$ in $\mathrm{Spec}(S_{u_1}) = \{-5, 5, 9, 11, 13\}$, uniquely $\{\alpha, \beta\} = \{13, -5\}$. Hence $\rk(Y) \le \mult_{13}(S_{u_1}) = 8$ and $\sigma_i^2 = (8 - \mu_i)\mu_i - (-65) = 81 - (\mu_i - 4)^2 \le 81$, contradicting $840 = 30 \cdot 28 = \|Y\|_F^2 \le 8 \cdot 81 = 648$.
+
+  \item \emph{Candidate $q_{488}$ of $(18, 59)$, $\chi_S(x) = (x+5)^{41}\allowbreak (x-15)\allowbreak (x-13)^6\allowbreak (x-11)^7\allowbreak (x-10)\allowbreak (x-9)^2\allowbreak (x-7)$:}
+  \emph{Step~1 (Projector structure from interlacing):} Two-vertex interlacing descent reduces all one-vertex square-class cones to two count vectors: $[(3, 18),\allowbreak (5, 24),\allowbreak (41, 2),\allowbreak (43, 12),\allowbreak (154, 3)]$ and $[(3, 20),\allowbreak (5, 24),\allowbreak (43, 10),\allowbreak (101, 2),\allowbreak (154, 3)]$. Setting $B := C_3 \cup C_{41}$ (resp.\ $B := C_3$), $|B| = 20$ and $|C_5| = 24$ are disjoint, while exact $2$-vertex Jacobi at $\lambda = 11$ ($\rk E_{11} = 7$) yields $(E_{11})_{uu} = \frac{1}{8}$ for $u \in B$, $|(E_{11})_{uw}| = \frac{1}{16}$ for $(u, w) \in B \times C_5$, and $(E_{11})_{uz} = 0$ for $u \in B$, $z \notin B \cup C_5$.
+
+  \emph{Step~2 (Spectral contradiction):} Let $T := E_{11}[B, B] \in \mathbb{R}^{20 \times 20}$. Then $\rk(T) \le \rk(E_{11}) = 7$ and $\tr(T) = 20 \cdot \frac{1}{8} = \frac{5}{2}$. For each $u \in B$, idempotence $(E_{11}^2)_{uu} = (E_{11})_{uu} = \frac{1}{8}$ gives $\sum_{v \in B} T_{uv}^2 = \frac{1}{8} - 24\cdot(\frac{1}{16})^2 = \frac{1}{32}$, so $\tr(T^2) = 20 \cdot \frac{1}{32} = \frac{5}{8}$. By Cauchy--Schwarz on the nonzero eigenvalues of symmetric $T$, $(\frac{5}{2})^2 = (\tr T)^2 \le \rk(T)\tr(T^2) \le 7 \cdot \frac{5}{8}$, i.e.\ $\frac{25}{4} \le \frac{35}{8}$, contradiction.
+\end{enumerate}
+\end{proposition}
+
+\subsection{De Caen--Jacobi resolvent and exact rational elimination of \texorpdfstring{$p_{13}$}{p\_13}}
+Candidate $p_{13}$ of $(19, 74)$ has characteristic polynomial
+\[
+  p_{13}(x) = (x+5)^{55}(x-17)(x-15)^{15}(x-11)^3,
+\]
+admitting $74$ one-vertex square-class count vectors on deck types $\{0, 1, 2, 5\}$. Since $(E_{17})_{uu} \propto (0, 4, 16, 36)$ gives $|v_u| \propto (0, 1, 2, 3)$, the eigenvector triangle inequality $17 r_u \le \sum_j c_j r_j - r_u$ eliminates $53$ vectors ($74 \to 21$), and two-vertex interlacing descent at $v \in C_0$ ($n_v = 73$) rules out $18$ more via odd-$73$ Galois Farkas duality, leaving three templates $(c_0, c_1, c_2, c_5)$:
+\[
+  S_1 = (24, 48, 0, 2), \qquad S_2 = (25, 45, 3, 1), \qquad S_3 = (26, 42, 6, 0).
+\]
+
+\begin{lemma}[Pole cancellation and $3$-block cycle structure]\label{lem:idx13_resolvent}
+Let $S$ realize $p_{13}$ in $(19, 74)$, with minimal polynomial $m(x) = (x+5)(x-17)(x-15)(x-11)$ and polynomial resolvent $R_{\mathrm{res}}(x, S) := m(x)(xI_{74} - S)^{-1} \in \mathbb{Z}[x]^{74 \times 74}$, satisfying $R_{\mathrm{res}}(15, S) = (S+5I)(S-17I)(S-11I) = -160 E_{15}$.
+\begin{enumerate}
+  \item For every $k$-subset $V \subseteq \{1,\dots,74\}$ with $k \ge 15$, $(x - 15)^{k - 15} \mid \det\big(R_{\mathrm{res}}(x, S)[V, V]\big)$ in $\mathbb{Z}[x]$.
+  \item On $C_0 \times C_1$, $2$-vertex Jacobi forces $(S^2)_{uv} = 10 S_{uv}$ and $E_{11}[C_0, C_1] = 0$, splitting $\rk(E_{11}[C_0]) = 1$ and $\rk(E_{11}[C_1]) = 2$; on $C_1$, $(E_{11})_{ij} \in \{\frac{1}{24}, -\frac{1}{48}\}$ partitions $C_1 = B_1 \sqcup B_2 \sqcup B_3$ into three equal $120^\circ$-ray blocks of size $m \in \{16, 15, 14\}$ for $S_1, S_2, S_3$.
+  \item Writing $M := 20 E_{15} = 5I_{74} + S - 16 E_{11} - 22 E_{17} = Z Z^T$ ($Z \in \mathbb{R}^{74 \times 15}$, $Z^T Z = 20 I_{15}$), in $S_1$ one has $M[B_a, B_a] = 2(2I_{16} - A_a)$ ($2$-regular simple graph $A_a$) and $M[x, B_a] = S[x, B_a] \in \{\pm 1\}^{16}$ for all $x \in C_0 \cup B_b$ ($b \neq a$). Every cycle $L$ of $A_a$ satisfies $\mathbf{1}_L^T M \mathbf{1}_L = 0 \implies M\mathbf{1}_L = 0 \implies \sum_{u \in L} S_{xu} = 0$, so $|L| \ge 4$ is even, restricting $B_1$ to the $7$ even partitions $(16), (12,4), (10,6), (8,8), (8,4,4), (6,6,4), (4,4,4,4)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since $\adj(xI - S) = (x+5)^{54}(x-11)^2(x-15)^{14} R_{\mathrm{res}}(x, S)$, Jacobi's $k$-minor identity $\det(\adj(xI-S)[V,V]) = \chi_S(x)^{k-1}\chi_{S[V^c]}(x)$ cancels $(x-15)^{14k}$ against $(x-15)^{15(k-1)}$ and coprime $(x+5)^{54k}(x-11)^{2k}$, giving~(1). Parts~(2)--(3) follow from $R = \frac{1}{2}(75I + 10S - S^2) = 32E_{11} - 22E_{17}$, $16(-\frac{1}{48}) + 22(\frac{1}{66}) = 0$ on $S_1$, and positive semidefiniteness of $M$.
+\end{proof}
+
+To eliminate every core block $M_{KK} \in \mathbb{Q}^{m \times m}$ of rank $r \le 15$ ($s_{\mathrm{rem}} = 15 - r \in \{0, 1, 2, 3\}$) over $\mathbb{Q}$ without floating-point arithmetic, write $M_{KK} = U_r \Lambda U_r^T$ ($\Lambda \succ 0$ of rank $r$) in real theory while computing in $\mathbb{Q}$ via the exact rational Moore--Penrose pseudoinverse $M_{KK}^+ \in \mathbb{Q}^{m \times m}$ and RREF pivot selector $\Pi$ ($W_\Pi := (20 M_{KK} - M_{KK}^2)_{\Pi,\Pi}$). Each outside vertex $x \notin K$ carries rational core projection $u_x = v_x[\Pi]$ ($\tilde{T}p_x = u_x$), rational quadratic form $Q(v_x) = v_x^T M_{KK}^+ v_x = \|p_x\|^2 \in \mathbb{Q}$, and residual norm $\mathrm{res}(x) = M_{xx} - Q(v_x) = \|r_x\|^2 \ge 0$ ($M_{xx} = \frac{9}{2}$ on $C_0$, $4$ on $B_2 \cup B_3$), subject to $\sum_{x \notin K} \left(\begin{smallmatrix} p_x \\ r_x \end{smallmatrix}\right)(p_x^T\ r_x^T) = \diag(20 I_r - \Lambda, 20 I_{s_{\mathrm{rem}}})$, i.e.\ $\sum_{x \notin K} u_x u_x^T = W_\Pi$ over $\mathbb{Q}$. Choosing canonical anchors $s_0$ (maximizing $\mathrm{res}(x)$) and, when $s_{\mathrm{rem}} = 3$, $s_1$ (maximizing $\mathrm{rem}_1(x) = \mathrm{res}(x) - A_x^2 / d_0$), fixes $O(s_{\mathrm{rem}})$ coordinates in $\mathbb{Q}$ and splits the final coordinate $\varepsilon_x q_x \sqrt{d_x}$ cleanly by squarefree integers $d_x \ge 1$. Indexing candidates by core profiles requires bounding identical projections:
+
+\begin{lemma}[Same-profile $\le 2$-copy cap]\label{lem:copycap}
+In every $S_1, S_2, S_3$ full-core branch, no two distinct vertices $x \neq y$ in $C_0$ (or in $B_2 \cup B_3$) share full coordinates $z_x = z_y$. Moreover, across all $7$ even partitions of $S_1$ (and all full-core $C_0$ branches of $S_2, S_3$), $\max_{v} \mathrm{res}(v) = \frac{5}{2} < \frac{8}{3}$; hence at most $2$ vertices in $C_0$ can share any core projection $v$, and same-profile twins occur only when $\mathrm{res}(v) \ge 2$ with $S_{xy} = +1$.
+\end{lemma}
+
+\begin{proof}
+If $z_x = z_y$ ($x \neq y$), then $M_{xx} = \|z_x\|^2 = \langle z_x, z_y \rangle = M_{xy}$, impossible since $\frac{9}{2} \notin \{\frac{1}{2}, -\frac{3}{2}\}$ on $C_0$ and $4 \notin \{-2, 0, \pm 1\}$ on $B_2 \cup B_3$. If $x \neq y \in C_0$ satisfy $v_x = v_y = v$ with $d = \frac{9}{2} - Q(v) \le \frac{5}{2}$, then $\langle r_x, r_y \rangle = M_{xy} - (\frac{9}{2} - d) \in \{d - 4, d - 6\}$. Cauchy--Schwarz ($|\langle r_x, r_y \rangle| \le d$) excludes $S_{xy} = -1$ ($|d - 6| > d$ for $d < 3$) and excludes $S_{xy} = +1$ whenever $d < 2$. If three distinct vertices $x_1, x_2, x_3 \in C_0$ shared $v$, their residual vectors would satisfy $0 \le \|r_{x_1} + r_{x_2} + r_{x_3}\|^2 = 3d + 6(d - 4) = 9d - 24 \le 9(\tfrac{5}{2}) - 24 = -\tfrac{3}{2} < 0$, contradiction.
+\end{proof}
+
+Retaining same-profile twins for all anchors with residual $\ge 2$ (and proving in exact $\mathbb{Q}$ that $q_0 = 4$ on $S_1(4,4,4,4)$ forces $g(s_0, x) \in \mathbb{Z} \implies A_x \in \mathbb{Z} + \frac{1}{2} \implies \mathrm{rem}_1(x) = 0$), our exact rational elimination of $p_{13}$ rules out all $10$ $S_3$-orbits, all $15$ $S_2$ cycle-path configurations, and all $7$ $S_1$ partitions via exact $\mathbb{Q}$ $LDL^T$ witnesses, $54{,}427$ strictly positive-gap rational Farkas dual certificates ($301$ on $(6,6,4)$, $671$ on $(8,4,4)$, and $53{,}455$ on $(4,4,4,4)$), and $1{,}052$ zero-slack $\mathrm{lcm}$-cleared integer CP-SAT refutations ($8 + 4 + 1{,}040$ across $(6,6,4)$, $(8,4,4)$, and complete $24$-vertex $C_0$-configurations at $q_0 = 3$, alongside separate exact CP-SAT refutations on $(8,8)$, $(12,4)$, Subcase~A, $S_2$, and $S_3$)~\cite{CompanionFull}.
+
+\section{Computational verification and Lean 4 formalization}\label{sec:verification}
+
+\subsection{Exact arithmetic implementation and independent verification}
+Every computational step in Table~\ref{tab:funnel} is carried out in exact integer, rational, or algebraic-number arithmetic without floating-point trust:
+\begin{enumerate}
+  \item \emph{Characteristic polynomial enumeration (\nolinkurl{enum_polys_v4.cpp}):} 512-bit inline \texttt{BigInt} Rolle-derivative tree search with exact Sturm root isolation on $[-5, \infty)$, exact symmetric Bareiss $LDL^T$ Hamburger/Stieltjes Hankel positive-semidefiniteness pruning, Corollary~\ref{cor:cor43} mod-$4$ prefix tables, and $\mathcal{P}_{n,7} \bmod 128$ lookup. By~\cite[Cor.~3.3 and Cor.~3.13]{GY2019}, $|\mathcal{P}_{n,7}| \le 2^{\binom{7-2}{2} + \gamma(n)}$ equals $1{,}024$ for even $n$ and $2{,}048$ for odd $n$; random sampling saturates the exact theoretical maximum ($1{,}024$ and $2{,}048$), making $\mathcal{P}_{n,7}$ mathematically exhaustive (deck enumerators abort if $|\mathcal{P}_{n-1,7}|$ fails to saturate, while polynomial enumeration conservatively disables the filter if unsaturated).
+  \item \emph{Interlacing decks and exact rational certification (\nolinkurl{stage2_deck_par.cpp}, \nolinkurl{stage2_deck_odd_v3.cpp}, \nolinkurl{phase2_*.py}, \nolinkurl{compute/poly/idx13_exact/}):} External LP solvers (\texttt{HiGHS}) act solely as untrusted dual oracles; every elimination requires an exact integer/rational Farkas dual $c^T A \ge 0, c^T b < 0$ (with pure-\texttt{Fraction} Bland-rule Simplex fallback), exact $\mathbb{Q}$ RREF box enumeration, exact $K^\times/(K^\times)^2$ Dedekind/resultant square-class partitioning, or exact integer CP-SAT (with static AST checks banning \texttt{eigh}, \texttt{pinv}, \texttt{linprog}, and float tolerances in \nolinkurl{compute/poly/idx13_exact/}). Uncertified LP variable-bound hints fall back conservatively to $[0, n]$.
+  \item \emph{Calibration on known extremal configurations and independent verification (\nolinkurl{audit/}):} All $12$ reconstructed record Seidel matrices ($(17,48)$ Netto and MSY26; $(18,57)$ GSY23 $F_1$--$F_4$---correcting the printed typo in~\cite[p.~1876]{GSY2023} for $\chi_{S_4}$ to $(x+5)^{39}(x-11)^{13}(x^2-20x+87)(x^3-32x^2+303x-716)$---together with LMTY25~\cite{LMTY2025} under $S_{\mathrm{std}} = -S_{\mathrm{LMTY}}$ and MSY26~\cite{MSY2026}; and $(19,72)$ Asche) pass all interlacing and algebraic filters with zero false exclusions. An independent C++20 and Python implementation (\nolinkurl{audit/}, sharing zero code with \nolinkurl{compute/}) re-enumerated $(19,75), (18,60), (17,49), (19,74)$ at full depth via \nolinkurl{clean_enum.cpp} and verified all $1{,}214$ admissible $(18,59)$ polynomials via \nolinkurl{verify_polys.py} (full-depth \nolinkurl{clean_enum} on $(18,59)$ not re-run), verified all $1{,}432$ one-vertex compatibility certificates, all $77/77$ Eulerian and Galois-orthogonality certificates, all $20/20$ higher-order $(18, 59)$ eliminations, and candidate $p_{13}$ of $(19, 74)$ (\nolinkurl{verify_phase3_19_74_idx13.py}, verified in $830.8\text{s}$ with $0$ remaining configurations).
+\end{enumerate}
+
+\subsection{Lean 4 formalization scope and certificate archive}
+Under \nolinkurl{leanprover/lean4:v4.36.0}~\cite{MouraUllrich2021} and Mathlib \texttt{v4.36.0}, we formalized $20{,}765$ lines across $20$ Lean files ($17$ library modules \nolinkurl{EquiangularLines.Basic} through \nolinkurl{EquiangularLines.Main}, top-level \nolinkurl{EquiangularLines.lean}, \nolinkurl{Audit.lean}, and \nolinkurl{Smoke.lean}). Running \texttt{lake build} and \texttt{lake env lean} on \nolinkurl{EquiangularLines/Audit.lean} verifies $127$ exported declarations with zero \texttt{sorry}, zero \nolinkurl{native_decide}, and zero custom axioms, depending solely on standard foundations \texttt{[propext, Classical.choice, Quot.sound]}.
+
+\begin{remark}[Formalization scope and explicit hypotheses]\label{rem:lean_boundary}
+To document the formalization scope precisely, we separate what is formally proved inside Lean~4 from what enters the top-level theorems \nolinkurl{frontier_19_74_no_lines_of_srg_and_cert_exhaustion} and \nolinkurl{frontier_18_59_no_lines_of_cert_exhaustion} (\nolinkurl{Main.lean}) as explicit hypotheses:
+\begin{itemize}
+  \item \emph{Proved unconditionally in Lean~4:} Seidel--Gram equivalence ($\rk \le d$), Gerzon, relative, Lemmens--Seidel, and Neumann bounds and $\alpha = 1/5$ (\nolinkurl{phase1_frontier_forces_one_fifth}); Theorem~\ref{thm:pfaffian} (\nolinkurl{odd_order_two_adic_congruence}) and multiplicity bounds (\nolinkurl{frontier_19_74_mult_15}, \nolinkurl{frontier_18_59_mult_11}); bidirectional equivalence $p_{136} \Leftrightarrow \SRG(75,32,10,16)$ (\nolinkurl{SRG136.lean}); Remark~\ref{rem:weaponb}, Proposition~\ref{prop:eulerian}, Theorem~\ref{thm:galois}, and Proposition~\ref{prop:prop61}; the spectral refutations $\neg(\chi_S = \texttt{idx47Charpoly} \wedge \texttt{RealizesIdx47Block}\,S)$, $\neg\,$\nolinkurl{RealizesIdx861Block}$\,S$, and $\neg\,$\nolinkurl{RealizesIdx488Proj}$\,S$ (\nolinkurl{idx47_eliminated}, \nolinkurl{idx861_eliminated}, \nolinkurl{idx488_rank_obstruction}), and Lemma~\ref{lem:idx13_resolvent}(1) (\nolinkurl{idx13_pole_cancellation_at_15}); soundness of the integer Farkas checker (\nolinkurl{checkCertZ_sound}, \nolinkurl{charpoly_eliminated_of_deck_farkas}); and pure-kernel \texttt{by decide} verification of all $147/147$ one-vertex \nolinkurl{1-vertex_farkas} certificates for $(19, 74)$ (\nolinkurl{certs19_74_all_147_verified}, using \texttt{[propext, Quot.sound]} only).
+  \item \emph{Explicit hypotheses (certified externally, not in Lean):} (i) \texttt{hno\_srg : $\neg$\,ExistsSRG 75 32 10 16}~\cite{AzarijaMarc2018}; (ii) \texttt{hexh}, the finite-enumeration exhaustion disjunction routing any hypothetical realization $S$ into the Lean-refuted cases above (representing C++ polynomial and Sturm-deck completeness, candidate-index linkage, the remaining $22 = 169 - 147$ $(19, 74)$ candidates not ruled out by one-vertex LP Farkas duality, all $1{,}214$ $(18, 59)$ external certificates, and Lemma~\ref{lem:idx13_resolvent}(2)--(3), Lemma~\ref{lem:copycap}, and our exact rational elimination of $p_{13}$); and (iii) within \texttt{hexh}, the interlacing-to-block derivations establishing \nolinkurl{RealizesIdx47Block}\,$S$, \nolinkurl{RealizesIdx861Block}\,$S$, and \nolinkurl{RealizesIdx488Proj}\,$S$ from those three candidate spectra.
+\end{itemize}
+\end{remark}
+
+All $56$ frozen JSON certificate bundles (\nolinkurl{stage1/}, \nolinkurl{phase2/}, \nolinkurl{sec7/}, \nolinkurl{phase3/}, \nolinkurl{phase3/idx13_exact/}, and \nolinkurl{calibration/}) and the read-only verifier \nolinkurl{certificates/verify_all.py} are archived with canonical manifest \nolinkurl{certificates/SHA256SUMS.txt} and documented in full in~\cite{CompanionFull}; Table~\ref{tab:artifacts} summarizes the verification layers.
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of Lean~4 formal verification and exact certificate bundles.}\label{tab:artifacts}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.45in}>{\raggedright\arraybackslash}p{1.2in}>{\raggedright\arraybackslash}p{3.2in}@{}}
+\toprule
+Verification layer & Scope & Verification mechanism and axioms / digest \\
+\midrule
+Lean~4 Theory (\texttt{lean/}) & $17$ files, $15{,}095$ lines & $124$ theorems (\texttt{[propext, Classical.choice, Quot.sound]}), zero \texttt{sorry} \\
+Lean~4 Farkas Kernel & $3$ shards, $5{,}670$ lines & $147/147$ $(19,74)$ one-vertex LP certs via \texttt{by decide} (\texttt{[propext, Quot.sound]}) \\
+\nolinkurl{certificates/stage1}, \nolinkurl{phase2} & Polynomials \& $1$-vertex decks & Exact \texttt{BigInt} Sturm + \texttt{Fraction} Farkas/RREF/$K^\times$ (\nolinkurl{audit/verify_*}) \\
+\nolinkurl{certificates/sec7}, \nolinkurl{phase3} & $77$ Gal./Euler + $(18,59)$/$74$ & Exact $\mathbb{Z}/\mathbb{Q}$ duals, $S_v$-Galois, $E_\lambda$ projectors ($20/20$ verified) \\
+\nolinkurl{phase3/idx13_exact} & $(19,74)$ $p_{13}$ ($S_3,S_2,S_1$) & Exact $\mathbb{Q}$ $M_{KK}^+$/$LDL^T$ + $54{,}427$ $S_1$ Farkas + exact CP-SAT (verified, $830.8\text{s}$) \\
+\nolinkurl{certificates/SHA256SUMS.txt} & $56$ JSONs (\nolinkurl{verify_all.py}) & \texttt{d9c57ae07182ef861e53093990aa8542\allowbreak 355a3c750098dfe6cde958a64a046d33} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{Acknowledgments}
+The author thanks Sri Chaitanya Educational Institutions for institutional support, and gratefully acknowledges the open-source contributors to the Lean~4 theorem prover, the Mathlib library, and the C++ and Python scientific software ecosystem.
+
+\section*{Data and code availability}
+The Lean~4 formalization, the exact C++20 and Python verification programs, and the frozen $56$-file exact certificate archive (with canonical manifest \nolinkurl{certificates/SHA256SUMS.txt}, SHA-256 \nolinkurl{d9c57ae07182ef861e53093990aa8542355a3c750098dfe6cde958a64a046d33}) are openly archived at \url{https://github.com/Mehardeep-Singh-GG/equiangular-lines-18-19} (release \texttt{v1.0.0}). Large JSON certificate bundles are stored compressed (\texttt{.json.gz}) in the public release, while \nolinkurl{certificates/verify_all.py} verifies their decompressed contents bit-for-bit against the canonical \nolinkurl{SHA256SUMS.txt} digests.
+
+\bibliographystyle{amsplain}
+\bibliography{refs}
+
+\end{document}

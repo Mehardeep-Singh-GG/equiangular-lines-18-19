@@ -1,0 +1,175 @@
+{
+  "elapsed_s": 168.49,
+  "partitions": {
+    "(16,)": {
+      "status": "KILLED",
+      "method": "exact_trace_lower_bound",
+      "rank_M": 15,
+      "min_24_C0_res": "12"
+    },
+    "(10, 6)": {
+      "status": "KILLED",
+      "method": "exact_qq_peel_cpsat",
+      "detail": "PEEL(|c|=0,|b|=0)"
+    },
+    "(8, 8)": {
+      "status": "KILLED",
+      "method": "exact_qq_orbits_and_tail_cpsat",
+      "orbits": [
+        {
+          "orbit": 0,
+          "res": "5/2",
+          "detail": "PEEL_S0"
+        },
+        {
+          "orbit": 1,
+          "res": "7/4",
+          "detail": "PEEL_S0"
+        },
+        {
+          "orbit": 2,
+          "res": "3/2",
+          "detail": "PEEL_S0"
+        },
+        {
+          "orbit": 3,
+          "res": "3/2",
+          "detail": "PEEL_S0"
+        },
+        {
+          "orbit": 4,
+          "res": "1",
+          "detail": "INFEASIBLE(0.16s,|c|=928,|b|=216)"
+        },
+        {
+          "orbit": 5,
+          "res": "3/4",
+          "detail": "PEEL_S0"
+        },
+        {
+          "orbit": 6,
+          "res": "3/4",
+          "detail": "PEEL_S0"
+        }
+      ],
+      "tail": "INFEASIBLE(1.66s,|c|=416,|b|=216)"
+    },
+    "(12, 4)": {
+      "status": "KILLED",
+      "method": "exact_qq_case0_and_orbits_cpsat",
+      "case0": "INFEASIBLE(8.39s,|c|=192,|b|=512)",
+      "orbits": [
+        {
+          "orbit": 0,
+          "res": "5/2",
+          "detail": "PEEL_S0"
+        },
+        {
+          "orbit": 1,
+          "res": "2",
+          "detail": "INFEASIBLE(5.33s,|c|=1792,|b|=704)"
+        },
+        {
+          "orbit": 2,
+          "res": "5/3",
+          "detail": "PEEL_S0"
+        },
+        {
+          "orbit": 3,
+          "res": "7/6",
+          "detail": "INFEASIBLE(0.97s,|c|=1776,|b|=704)"
+        },
+        {
+          "orbit": 4,
+          "res": "7/6",
+          "detail": "INFEASIBLE(1.03s,|c|=1776,|b|=704)"
+        },
+        {
+          "orbit": 5,
+          "res": "7/6",
+          "detail": "INFEASIBLE(1.02s,|c|=1776,|b|=704)"
+        },
+        {
+          "orbit": 6,
+          "res": "7/6",
+          "detail": "INFEASIBLE(1.14s,|c|=1776,|b|=704)"
+        },
+        {
+          "orbit": 7,
+          "res": "1",
+          "detail": "INFEASIBLE(0.72s,|c|=1344,|b|=608)"
+        },
+        {
+          "orbit": 8,
+          "res": "1",
+          "detail": "INFEASIBLE(0.73s,|c|=1344,|b|=608)"
+        },
+        {
+          "orbit": 9,
+          "res": "1",
+          "detail": "INFEASIBLE(0.74s,|c|=1344,|b|=608)"
+        },
+        {
+          "orbit": 10,
+          "res": "1",
+          "detail": "INFEASIBLE(0.71s,|c|=1344,|b|=608)"
+        },
+        {
+          "orbit": 11,
+          "res": "2/3",
+          "detail": "INFEASIBLE(0.69s,|c|=1184,|b|=608)"
+        },
+        {
+          "orbit": 12,
+          "res": "2/3",
+          "detail": "INFEASIBLE(0.66s,|c|=1184,|b|=608)"
+        },
+        {
+          "orbit": 13,
+          "res": "2/3",
+          "detail": "INFEASIBLE(0.71s,|c|=1184,|b|=608)"
+        },
+        {
+          "orbit": 14,
+          "res": "1/2",
+          "detail": "INFEASIBLE(10.29s,|c|=704,|b|=608)"
+        },
+        {
+          "orbit": 15,
+          "res": "1/2",
+          "detail": "INFEASIBLE(11.42s,|c|=704,|b|=608)"
+        },
+        {
+          "orbit": 16,
+          "res": "1/2",
+          "detail": "INFEASIBLE(11.50s,|c|=704,|b|=608)"
+        },
+        {
+          "orbit": 17,
+          "res": "1/2",
+          "detail": "INFEASIBLE(11.13s,|c|=704,|b|=608)"
+        },
+        {
+          "orbit": 18,
+          "res": "1/2",
+          "detail": "INFEASIBLE(0.61s,|c|=704,|b|=608)"
+        },
+        {
+          "orbit": 19,
+          "res": "1/2",
+          "detail": "INFEASIBLE(0.57s,|c|=704,|b|=608)"
+        },
+        {
+          "orbit": 20,
+          "res": "1/2",
+          "detail": "INFEASIBLE(0.58s,|c|=704,|b|=608)"
+        },
+        {
+          "orbit": 21,
+          "res": "1/2",
+          "detail": "INFEASIBLE(0.61s,|c|=704,|b|=608)"
+        }
+      ]
+    }
+  }
+}

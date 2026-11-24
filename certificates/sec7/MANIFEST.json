@@ -1,0 +1,24 @@
+{
+  "total_killed": 77,
+  "sec30_count": 74,
+  "phase3_new_count": 3,
+  "files": {
+    "sec7_18_60.json": {
+      "sha256": "cb0016c330ee9368bc794bb7325369278b8be428eef003bd422303c0855b5817",
+      "bytes": 385
+    },
+    "sec7_17_49.json": {
+      "sha256": "c2855c8d72a9422b8b7304110f1a43785a5230bd7efde80e64dfe00faeae8b06",
+      "bytes": 11708
+    },
+    "sec7_19_74.json": {
+      "sha256": "61bdb5ee5491530c7658fbb1f3ecb116d86dfad300d96f3e159c16a959ae6079",
+      "bytes": 1036369
+    },
+    "sec7_18_59.json": {
+      "sha256": "24a23f128baf4d52546af30d41fe22cf51661c0565028a06409290ad6f3a101b",
+      "bytes": 471596
+    }
+  },
+  "elapsed_s": 1576.82
+}

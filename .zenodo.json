@@ -1,0 +1,23 @@
+{
+  "title": "Upper bounds on real equiangular lines in dimensions 18 and 19: 2-adic Pfaffian congruences, Galois orthogonality, and exact spectral certificates",
+  "description": "Companion Lean 4 formalization (v4.36.0, 127 kernel-audited declarations), exact C++20/Python verification programs, frozen 56-file exact integer/rational certificate archive (canonical SHA-256 d9c57ae07182ef861e53093990aa8542355a3c750098dfe6cde958a64a046d33), and archival LaTeX/PDF manuscripts proving N(18) <= 58 unconditionally and (19, 74) <-> SRG(75, 32, 10, 16), hence N(19) <= 73 modulo Azarija-Marc (2018).",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "mit",
+  "creators": [
+    {
+      "name": "Singh, Mehardeep",
+      "affiliation": "Sri Chaitanya Educational Institutions, India"
+    }
+  ],
+  "keywords": [
+    "equiangular lines",
+    "Seidel matrix",
+    "Pfaffian congruence",
+    "Galois orthogonality",
+    "strongly regular graphs",
+    "exact rational certificates",
+    "Lean 4"
+  ],
+  "notes": "Dual-licensed: MIT License for software and Lean 4 formalization; CC-BY-4.0 for manuscripts and certificate datasets. Canonical 56-file certificate manifest: certificates/SHA256SUMS.txt."
+}

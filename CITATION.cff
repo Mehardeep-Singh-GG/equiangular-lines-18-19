@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use these manuscripts, Lean 4 formalizations, or exact certificate archives in your research, please cite this repository as follows."
+type: software
+title: "Upper bounds on real equiangular lines in dimensions 18 and 19: 2-adic Pfaffian congruences, Galois orthogonality, and exact spectral certificates"
+version: 1.0.0
+date-released: 2026-11-24
+url: "https://github.com/Mehardeep-Singh-GG/equiangular-lines-18-19"
+repository-code: "https://github.com/Mehardeep-Singh-GG/equiangular-lines-18-19"
+license:
+  - MIT
+  - CC-BY-4.0
+authors:
+  - family-names: "Singh"
+    given-names: "Mehardeep"
+    affiliation: "Sri Chaitanya Educational Institutions, India"
+    email: "mehardeep.sim@gmail.com"
+keywords:
+  - equiangular lines
+  - Seidel matrix
+  - Pfaffian congruence
+  - Galois orthogonality
+  - strongly regular graphs
+  - exact certificates
+  - Lean 4
+abstract: >-
+  We establish unconditionally that no system of 59 equiangular lines exists in
+  R^18, narrowing N(18) to {57, 58}. In dimension 19, we prove unconditionally that
+  74 equiangular lines exist in R^19 if and only if there exists a strongly
+  regular graph SRG(75, 32, 10, 16); combined with the theorem of Azarija and
+  Marc (2018), this yields N(19) <= 73 and narrows N(19) to {72, 73}. The proof
+  combines an exact mod-2^(n+1) Pfaffian congruence for odd-order Seidel matrices,
+  unique odd-order Eulerian switching laws, generalized Galois orthogonality over
+  simple spectral factors, De Caen-Jacobi resolvent analysis, a frozen 56-file
+  exact integer/rational certificate archive, and a Lean 4 formalization (v4.36.0,
+  127 kernel-audited declarations on standard axioms).

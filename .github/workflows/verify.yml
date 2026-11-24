@@ -1,0 +1,142 @@
+name: Verify Lean 4 Proofs & Exact Certificates
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  certificates-verify:
+    name: Certificate Archive & Python Hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify canonical certificate manifest digest
+        run: |
+          EXPECTED="d9c57ae07182ef861e53093990aa8542355a3c750098dfe6cde958a64a046d33"
+          ACTUAL="$(sha256sum certificates/SHA256SUMS.txt | awk '{print $1}')"
+          echo "SHA256SUMS.txt = $ACTUAL"
+          test "$ACTUAL" = "$EXPECTED"
+
+      - name: Verify all 56 certificates bit-for-bit and exact rationals
+        run: python3 certificates/verify_all.py
+
+      - name: Syntax-check all Python verification and compute scripts
+        run: |
+          python3 - <<'PY'
+          import pathlib, py_compile
+          files = sorted(list(pathlib.Path("certificates").rglob("*.py"))
+                         + list(pathlib.Path("compute").rglob("*.py"))
+                         + list(pathlib.Path("audit").rglob("*.py")))
+          for p in files:
+              py_compile.compile(str(p), doraise=True)
+          print(f"py_compile OK across {len(files)} Python files.")
+          PY
+
+  cpp-build-check:
+    name: Build C++20 Enumerators & Audits
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile core C++20 verification binaries
+        run: make -C compute core
+
+  lean-verify:
+    name: Lean 4 Build & Axiom Audit (127 Declarations)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Static hygiene check (zero sorry, custom axiom, or native_decide)
+        run: |
+          python3 - <<'PY'
+          import pathlib, re
+
+          def strip_lean_comments(src: str) -> str:
+              out = []
+              i, n, depth = 0, len(src), 0
+              while i < n:
+                  if depth == 0 and src.startswith("/-", i):
+                      depth = 1
+                      i += 2
+                  elif depth > 0:
+                      if src.startswith("/-", i):
+                          depth += 1
+                          i += 2
+                      elif src.startswith("-/", i):
+                          depth -= 1
+                          i += 2
+                      else:
+                          if src[i] == "\n":
+                              out.append("\n")
+                          i += 1
+                  elif src.startswith("--", i):
+                      j = src.find("\n", i)
+                      if j == -1:
+                          break
+                      out.append("\n")
+                      i = j + 1
+                  else:
+                      out.append(src[i])
+                      i += 1
+              return "".join(out)
+
+          lean_files = sorted(pathlib.Path("lean/EquiangularLines").glob("*.lean")) + [pathlib.Path("lean/EquiangularLines.lean")]
+          assert len(lean_files) == 20, len(lean_files)
+          for p in lean_files:
+              code = strip_lean_comments(p.read_text(encoding="utf-8"))
+              assert not re.search(r"\bnative_decide\b", code), f"native_decide in {p}"
+              assert not re.search(r"\bsorry\b", code), f"sorry in {p}"
+              assert not re.search(r"^\s*axiom\b", code, re.M), f"Custom axiom in {p}"
+          print(f"Static hygiene clean across {len(lean_files)} Lean files (0 sorry, 0 custom axioms, 0 native_decide).")
+          PY
+
+      - name: Install elan toolchain manager
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Cache Lean toolchain and Mathlib build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.elan
+            lean/.lake
+          key: lean-${{ runner.os }}-${{ hashFiles('lean/lean-toolchain', 'lean/lakefile.toml', 'lean/lake-manifest.json') }}
+
+      - name: Fetch Mathlib olean cache and build EquiangularLines
+        working-directory: lean
+        run: |
+          elan toolchain install "$(cat lean-toolchain)"
+          lake exe cache get || true
+          lake build
+
+      - name: Run 127-declaration #print axioms audit
+        working-directory: lean
+        run: |
+          lake env lean EquiangularLines/Audit.lean | tee /tmp/lean_audit.txt
+          python3 - <<'PY'
+          import pathlib, re
+          text = pathlib.Path("/tmp/lean_audit.txt").read_text(encoding="utf-8")
+          matches = re.findall(r"'([^']+)'\s+depends on axioms:\s*\[([^\]]+)\]", text, re.S)
+          assert len(matches) == 127, f"Expected 127 audited declarations, found {len(matches)}"
+          allowed = {"propext", "Classical.choice", "Quot.sound"}
+          for decl, raw_ax in matches:
+              axs = {a.strip() for a in raw_ax.split(",") if a.strip()}
+              bad = axs - allowed
+              assert not bad, f"{decl} depends on disallowed axioms: {bad}"
+              assert "sorryAx" not in axs
+          print(f"Kernel axiom audit PASSED: {len(matches)}/127 declarations strictly on {sorted(allowed)}.")
+          PY

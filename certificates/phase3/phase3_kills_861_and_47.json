@@ -1,0 +1,46 @@
+{
+  "idx_47": {
+    "target": "(19, 74) idx=47",
+    "status": "ELIMINATED",
+    "stage2_unique_blocks": {
+      "C0": 52,
+      "C1": 16,
+      "C2": 6
+    },
+    "sols_01_count": 4,
+    "sols_12_count": 2,
+    "forced_relation": "W*B + B*X = 10*B",
+    "tr_BTB_spectral": 896,
+    "tr_BTB_frobenius": 928
+  },
+  "idx_861": {
+    "target": "(18, 59) idx=861",
+    "status": "ELIMINATED",
+    "stage2_unique_blocks": {
+      "C0": 30,
+      "C1_u1": 1,
+      "C2": 28
+    },
+    "eulerian_quotient_K": [
+      [
+        5,
+        1,
+        0
+      ],
+      [
+        30,
+        0,
+        28
+      ],
+      [
+        0,
+        1,
+        9
+      ]
+    ],
+    "sols_49_mod4_count": 4,
+    "forced_relation": "X*Y + Y*Z = 8*Y",
+    "frobenius_norm_sq": 840,
+    "singular_value_upper_bound": 648
+  }
+}

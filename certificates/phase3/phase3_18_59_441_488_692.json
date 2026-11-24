@@ -1,0 +1,133 @@
+{
+  "441": {
+    "index": 441,
+    "status": "KILLED_E15_GRAM_ORTH",
+    "counts_n_surv": [
+      [
+        0,
+        49
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        15,
+        8
+      ]
+    ],
+    "gram_solutions": 1,
+    "unique_gram_sol": {
+      "c0_cliques": [
+        18,
+        16,
+        15
+      ],
+      "c2_vecs": [
+        [
+          "-3/100",
+          "-3/100",
+          "1/50"
+        ],
+        [
+          "1/50",
+          "1/50",
+          "1/50"
+        ]
+      ],
+      "c15_indices": [
+        3,
+        4,
+        4,
+        4,
+        7,
+        7,
+        8,
+        8
+      ]
+    },
+    "e15_v10_orth_survivors": 0,
+    "elapsed_sec": 2.535
+  },
+  "488": {
+    "index": 488,
+    "status": "KILLED_E11_SUBMATRIX_RANK",
+    "surv0": {
+      "counts_n": [
+        [
+          3,
+          18
+        ],
+        [
+          5,
+          24
+        ],
+        [
+          41,
+          2
+        ],
+        [
+          43,
+          12
+        ],
+        [
+          154,
+          3
+        ]
+      ],
+      "B_size": 20,
+      "rank_E11_B": 10,
+      "mult_11": 7
+    },
+    "surv1": {
+      "counts_n": [
+        [
+          3,
+          20
+        ],
+        [
+          5,
+          24
+        ],
+        [
+          43,
+          10
+        ],
+        [
+          101,
+          2
+        ],
+        [
+          154,
+          3
+        ]
+      ],
+      "B_size": 20,
+      "rank_E11_B": 10,
+      "mult_11": 7
+    },
+    "elapsed_sec": 2.851
+  },
+  "692": {
+    "index": 692,
+    "status": "KILLED_DECAEN_JACOBI_F2_PARITY",
+    "counts_n_surv": [
+      [
+        0,
+        17
+      ],
+      [
+        2,
+        40
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "E11_19_rank": 14,
+    "unique_H": "4_C4_plus_P3_CaseB",
+    "chi_S40": "(x - 15)**2*(x - 7)**10*(x - 3)**5*(x + 5)**23",
+    "elapsed_sec": 2.907
+  }
+}

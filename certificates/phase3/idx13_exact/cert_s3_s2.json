@@ -1,0 +1,351 @@
+{
+  "module": "certify_s3_s2",
+  "all_dead": true,
+  "stats": {
+    "S3": {
+      "orbit_3": {
+        "status": "KILLED",
+        "partitions": {
+          "(4, 4, 6)": [
+            "p0(rk=14):INFEASIBLE(0.21s,nc=356)",
+            "p1:|C0|=24<26",
+            "p2(rk=14):INFEASIBLE(0.23s,nc=356)",
+            "p3:|C0|=24<26",
+            "p4(rk=15):PEEL(nc=0)",
+            "p5(rk=15):PEEL(nc=0)"
+          ],
+          "(4, 10)": [
+            "p0(rk=15):PEEL(nc=0)"
+          ]
+        }
+      },
+      "orbit_4": {
+        "status": "KILLED",
+        "partitions": {
+          "(4, 4, 6)": [
+            "p0(rk=13):ORBS_DEAD(34/34)",
+            "p1(rk=14):INFEASIBLE(1.60s,nc=580)",
+            "p2(rk=13):ORBS_DEAD(26/26)",
+            "p3(rk=14):INFEASIBLE(1.42s,nc=580)",
+            "p4(rk=14):ORBS_DEAD(34/34)",
+            "p5(rk=14):ORBS_DEAD(41/41)",
+            "p6:|C0|=20<26"
+          ],
+          "(4, 10)": [
+            "p0(rk=14):INFEASIBLE(0.97s,nc=592)",
+            "p1(rk=15):PEEL(nc=0)"
+          ],
+          "(6, 8)": [
+            "p0:|C0|=24<26"
+          ]
+        }
+      },
+      "orbit_7": {
+        "status": "KILLED",
+        "partitions": {
+          "(4, 4, 6)": [
+            "p0(rk=14):INFEASIBLE(0.42s,nc=454)",
+            "p1(rk=15):PEEL(nc=0)"
+          ],
+          "(4, 10)": [
+            "p0(rk=15):PEEL(nc=0)"
+          ]
+        }
+      },
+      "orbit_9": {
+        "status": "KILLED",
+        "partitions": {
+          "(4, 4, 6)": [
+            "p0(rk=13):ORBS_DEAD(36/36)",
+            "p1(rk=14):KILLED_BY_MIN_A1_A2_AND_CASES"
+          ],
+          "(4, 10)": [
+            "p0(rk=14):INFEASIBLE(0.96s,nc=596)",
+            "p1(rk=15):PEEL(nc=0)"
+          ],
+          "(6, 8)": [
+            "p0:|C0|=24<26"
+          ]
+        }
+      },
+      "orbit_1": {
+        "status": "KILLED",
+        "surviving_graphs": {
+          "P2_(4, 4, 4)": [
+            "p0(rk=13):ORBS_DEAD(36/36)",
+            "p1(rk=14):INFEASIBLE(0.84s,nc=428)",
+            "p2(rk=13):ORBS_DEAD(48/48)",
+            "p3(rk=13):ORBS_DEAD(20/20)",
+            "p4(rk=14):INFEASIBLE(0.82s,nc=428)",
+            "p5(rk=14):ORBS_DEAD(48/48)",
+            "p6(rk=14):ORBS_DEAD(40/40)"
+          ],
+          "P2_(4, 8)": [
+            "p0(rk=14):INFEASIBLE(1.82s,nc=628)",
+            "p1(rk=14):INFEASIBLE(0.11s,nc=244)",
+            "p2(rk=15):INFEASIBLE(0.06s,nc=180)",
+            "p3(rk=15):INFEASIBLE(0.05s,nc=180)"
+          ],
+          "P4_(4, 6)": [
+            "p0(rk=14):INFEASIBLE(1.26s,nc=568)",
+            "p1:|C0|=16<26"
+          ],
+          "P6_(4, 4)": [
+            "p0(rk=14):INFEASIBLE(2.19s,nc=512)",
+            "p1(rk=15):INFEASIBLE(0.06s,nc=172)",
+            "p2(rk=14):INFEASIBLE(0.18s,nc=280)",
+            "p3(rk=15):INFEASIBLE(0.04s,nc=172)",
+            "p4(rk=15):INFEASIBLE(0.02s,nc=168)",
+            "p5(rk=15):INFEASIBLE(0.11s,nc=280)"
+          ],
+          "P10_(4,)": [
+            "p0(rk=15):INFEASIBLE(0.02s,nc=112)"
+          ]
+        }
+      },
+      "orbit_2": {
+        "status": "KILLED",
+        "surviving_graphs": {
+          "P2_(4, 4, 4)": [
+            "p0(rk=14):INFEASIBLE(0.91s,nc=548)",
+            "p1(rk=15):PEEL(nc=0)",
+            "p2(rk=14):INFEASIBLE(0.11s,nc=244)",
+            "p3(rk=14):INFEASIBLE(0.01s,nc=92)",
+            "p4(rk=15):PEEL(nc=0)",
+            "p5(rk=15):PEEL(nc=0)",
+            "p6(rk=15):INFEASIBLE(0.00s,nc=76)"
+          ],
+          "P2_(4, 8)": [
+            "p0(rk=15):INFEASIBLE(0.00s,nc=44)",
+            "p1(rk=15):PEEL(nc=0)"
+          ],
+          "P4_(4, 6)": [
+            "p0(rk=15):PEEL(nc=0)"
+          ],
+          "P6_(4, 4)": [
+            "p0(rk=15):INFEASIBLE(0.01s,nc=92)",
+            "p1(rk=15):INFEASIBLE(0.01s,nc=92)"
+          ]
+        }
+      },
+      "orbit_5": {
+        "status": "KILLED",
+        "surviving_graphs": {}
+      },
+      "orbit_6": {
+        "status": "KILLED",
+        "surviving_graphs": {}
+      },
+      "orbit_8": {
+        "status": "KILLED",
+        "surviving_graphs": {}
+      },
+      "orbit_0": {
+        "status": "KILLED",
+        "total_configs": 147,
+        "pair_configs": {
+          "cfg_1_[1, 1]_(4, 4, 4)": [
+            "p0(rk=13):ORBS_DEAD(36/36)",
+            "p1(rk=14):INFEASIBLE(0.88s,nc=428)",
+            "p2(rk=13):ORBS_DEAD(48/48)",
+            "p3(rk=13):ORBS_DEAD(20/20)",
+            "p4(rk=14):INFEASIBLE(0.73s,nc=428)",
+            "p5(rk=14):ORBS_DEAD(48/48)",
+            "p6(rk=14):ORBS_DEAD(40/40)"
+          ],
+          "cfg_4_[1, 1]_(4, 8)": [
+            "p0(rk=14):INFEASIBLE(2.52s,nc=628)",
+            "p1(rk=14):INFEASIBLE(0.14s,nc=244)",
+            "p2(rk=15):INFEASIBLE(0.04s,nc=180)",
+            "p3(rk=15):INFEASIBLE(0.05s,nc=180)"
+          ],
+          "cfg_13_[1, 3]_(4, 6)": [
+            "p0(rk=14):INFEASIBLE(1.11s,nc=568)",
+            "p1:|C0|=16<26"
+          ],
+          "cfg_16_[1, 3]_(4, 6)": [
+            "p0(rk=14):INFEASIBLE(1.09s,nc=568)",
+            "p1:|C0|=16<26"
+          ],
+          "cfg_25_[1, 5]_(4, 4)": [
+            "p0(rk=14):INFEASIBLE(2.35s,nc=512)",
+            "p1(rk=15):INFEASIBLE(0.05s,nc=172)",
+            "p2(rk=14):INFEASIBLE(0.37s,nc=280)",
+            "p3(rk=15):INFEASIBLE(0.04s,nc=172)",
+            "p4(rk=15):INFEASIBLE(0.02s,nc=168)",
+            "p5(rk=15):INFEASIBLE(0.12s,nc=280)"
+          ],
+          "cfg_28_[1, 5]_(4, 4)": [
+            "p0(rk=14):INFEASIBLE(2.17s,nc=512)",
+            "p1(rk=15):INFEASIBLE(0.09s,nc=172)",
+            "p2(rk=14):INFEASIBLE(0.31s,nc=280)",
+            "p3(rk=15):INFEASIBLE(0.04s,nc=172)",
+            "p4(rk=15):INFEASIBLE(0.02s,nc=168)",
+            "p5(rk=15):INFEASIBLE(0.10s,nc=280)"
+          ],
+          "cfg_43_[1, 9]_(4,)": [
+            "p0(rk=15):INFEASIBLE(0.03s,nc=112)"
+          ],
+          "cfg_46_[1, 9]_(4,)": [
+            "p0(rk=15):INFEASIBLE(0.01s,nc=112)"
+          ],
+          "cfg_54_[2, 2]_(4, 6)": [
+            "p0(rk=14):INFEASIBLE(1.23s,nc=568)",
+            "p1:|C0|=16<26"
+          ],
+          "cfg_56_[2, 2]_(4, 6)": [
+            "p0(rk=15):PEEL(nc=0)"
+          ],
+          "cfg_60_[2, 4]_(4, 4)": [
+            "p0(rk=14):INFEASIBLE(2.56s,nc=512)",
+            "p1(rk=15):INFEASIBLE(0.05s,nc=172)",
+            "p2(rk=14):INFEASIBLE(0.17s,nc=280)",
+            "p3(rk=15):INFEASIBLE(0.04s,nc=172)",
+            "p4(rk=15):INFEASIBLE(0.02s,nc=168)",
+            "p5(rk=15):INFEASIBLE(0.13s,nc=280)"
+          ],
+          "cfg_62_[2, 4]_(4, 4)": [
+            "p0(rk=15):INFEASIBLE(0.01s,nc=92)",
+            "p1(rk=15):INFEASIBLE(0.01s,nc=92)"
+          ],
+          "cfg_63_[2, 4]_(4, 4)": [
+            "p0(rk=15):INFEASIBLE(0.01s,nc=92)",
+            "p1(rk=15):INFEASIBLE(0.01s,nc=92)"
+          ],
+          "cfg_65_[2, 4]_(4, 4)": [
+            "p0(rk=14):INFEASIBLE(5.83s,nc=512)",
+            "p1(rk=15):INFEASIBLE(0.05s,nc=172)",
+            "p2(rk=14):INFEASIBLE(0.22s,nc=280)",
+            "p3(rk=15):INFEASIBLE(0.04s,nc=172)",
+            "p4(rk=15):INFEASIBLE(0.02s,nc=168)",
+            "p5(rk=15):INFEASIBLE(0.12s,nc=280)"
+          ],
+          "cfg_78_[2, 8]_(4,)": [
+            "p0(rk=15):INFEASIBLE(0.01s,nc=112)"
+          ],
+          "cfg_83_[2, 8]_(4,)": [
+            "p0(rk=15):INFEASIBLE(0.01s,nc=112)"
+          ],
+          "cfg_91_[3, 3]_(4, 4)": [
+            "p0(rk=14):INFEASIBLE(1.86s,nc=512)",
+            "p1(rk=15):INFEASIBLE(0.05s,nc=172)",
+            "p2(rk=14):INFEASIBLE(0.23s,nc=280)",
+            "p3(rk=15):INFEASIBLE(0.04s,nc=172)",
+            "p4(rk=15):INFEASIBLE(0.02s,nc=168)",
+            "p5(rk=15):INFEASIBLE(0.11s,nc=280)"
+          ],
+          "cfg_103_[3, 7]_(4,)": [
+            "p0(rk=15):INFEASIBLE(0.02s,nc=112)"
+          ],
+          "cfg_106_[3, 7]_(4,)": [
+            "p0(rk=15):INFEASIBLE(0.01s,nc=112)"
+          ],
+          "cfg_117_[4, 6]_(4,)": [
+            "p0(rk=15):INFEASIBLE(0.01s,nc=112)"
+          ],
+          "cfg_122_[4, 6]_(4,)": [
+            "p0(rk=15):INFEASIBLE(0.06s,nc=112)"
+          ],
+          "cfg_130_[5, 5]_(4,)": [
+            "p0(rk=15):INFEASIBLE(0.02s,nc=112)"
+          ]
+        }
+      }
+    },
+    "S2": {
+      "top_reduction": {
+        "s_plus1_killed": "only deg in {0,2}; zero cycles via 20E15[v,y1]=-1/3; all-deg-0 yields Schur=-215/12 < 0 (16x16 LDL^T witness)",
+        "c5_decouples_qq": true,
+        "s_minus1_surviving_z": [
+          [
+            1,
+            1,
+            1
+          ]
+        ]
+      },
+      "configs": {
+        "P1_(4, 4, 6)": {
+          "status": "KILLED",
+          "reps": [
+            "rep0(r=13):ALL_35_ORBS_DEAD",
+            "rep1(r=14):ALL_55_ORBS_DEAD"
+          ]
+        },
+        "P1_(4, 10)": {
+          "status": "KILLED",
+          "method": "0_z0_vectors"
+        },
+        "P1_(6, 8)": {
+          "status": "KILLED",
+          "reps": [
+            "rep0(r=15):COUNT_FAIL(|c0|=10,|a1|=1)"
+          ]
+        },
+        "P1_(14,)": {
+          "status": "KILLED",
+          "method": "0_z0_vectors"
+        },
+        "P3_(4, 4, 4)": {
+          "status": "KILLED",
+          "reps": [
+            "rep0:M18_FAIL(ok=False,r=-1)",
+            "rep1(r=13):ALL_37_ORBS_DEAD",
+            "rep2(r=14):ALL_40_ORBS_DEAD"
+          ]
+        },
+        "P3_(4, 8)": {
+          "status": "KILLED",
+          "reps": [
+            "rep0:M18_FAIL(ok=False,r=-1)",
+            "rep1(r=14):A1_INFEASIBLE(0.00s,|b|=161)",
+            "rep2(r=15):A1_INFEASIBLE(0.00s,|b|=40)"
+          ]
+        },
+        "P3_(6, 6)": {
+          "status": "KILLED",
+          "reps": [
+            "rep0:M18_FAIL(ok=False,r=-1)",
+            "rep1(r=15):COUNT_FAIL(|c0|=13,|a1|=3)"
+          ]
+        },
+        "P3_(12,)": {
+          "status": "KILLED",
+          "method": "0_z0_vectors"
+        },
+        "P5_(4, 6)": {
+          "status": "KILLED",
+          "reps": [
+            "rep0(r=14):A1_INFEASIBLE(0.01s,|b|=98)",
+            "rep1(r=15):COUNT_FAIL(|c0|=8,|a1|=6)"
+          ]
+        },
+        "P5_(10,)": {
+          "status": "KILLED",
+          "method": "0_z0_vectors"
+        },
+        "P7_(4, 4)": {
+          "status": "KILLED",
+          "method": "0_z0_vectors"
+        },
+        "P7_(8,)": {
+          "status": "KILLED",
+          "method": "0_z0_vectors"
+        },
+        "P9_(6,)": {
+          "status": "KILLED",
+          "method": "0_z0_vectors"
+        },
+        "P11_(4,)": {
+          "status": "KILLED",
+          "method": "0_z0_vectors"
+        },
+        "P15_()": {
+          "status": "KILLED",
+          "method": "0_z0_vectors"
+        }
+      }
+    }
+  },
+  "elapsed_sec": 734.26
+}
