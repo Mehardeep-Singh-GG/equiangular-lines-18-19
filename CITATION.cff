@@ -4,6 +4,7 @@ type: software
 title: "Upper bounds on real equiangular lines in dimensions 18 and 19: 2-adic Pfaffian congruences, Galois orthogonality, and exact spectral certificates"
 version: 1.0.0
 date-released: 2026-11-24
+doi: "10.5281/zenodo.24510618"
 url: "https://github.com/Mehardeep-Singh-GG/equiangular-lines-18-19"
 repository-code: "https://github.com/Mehardeep-Singh-GG/equiangular-lines-18-19"
 license:

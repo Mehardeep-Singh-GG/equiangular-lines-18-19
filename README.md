@@ -1,6 +1,7 @@
 # Equiangular Lines in Dimensions 18 and 19
 
 [![Verify Lean 4 Proofs & Exact Certificates](https://github.com/Mehardeep-Singh-GG/equiangular-lines-18-19/actions/workflows/verify.yml/badge.svg)](https://github.com/Mehardeep-Singh-GG/equiangular-lines-18-19/actions/workflows/verify.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24510618.svg)](https://doi.org/10.5281/zenodo.24510618)
 ![Lean 4](https://img.shields.io/badge/Lean-v4.36.0-blue)
 ![Axioms](https://img.shields.io/badge/axioms-standard%20only%20(127%20decls)-brightgreen)
 ![Certificates](https://img.shields.io/badge/certificates-56%2F56%20exact%20QQ%2FZZ-success)
@@ -8,7 +9,8 @@
 
 **Author:** Mehardeep Singh (`Sri Chaitanya Educational Institutions`, India)  
 **Contact:** `mehardeep.sim@gmail.com`  
-**Repository:** https://github.com/Mehardeep-Singh-GG/equiangular-lines-18-19 (`v1.0.0`)
+**Repository:** https://github.com/Mehardeep-Singh-GG/equiangular-lines-18-19 (`v1.0.0`)  
+**Software Archive DOI:** [10.5281/zenodo.24510618](https://doi.org/10.5281/zenodo.24510618)
 
 This repository contains the manuscripts, Lean 4 formalization, zero-floating-point C++20/Python verification programs, and frozen 56-file exact integer/rational certificate archive establishing upper bounds on $N(d)$, the maximum cardinality of a system of equiangular lines in $\mathbb{R}^d$:
 
@@ -91,7 +93,8 @@ Please see [`CITATION.cff`](CITATION.cff) or use the GitHub *"Cite this reposito
   author       = {Singh, Mehardeep},
   title        = {Upper bounds on real equiangular lines in dimensions 18 and 19: 2-adic Pfaffian congruences, Galois orthogonality, and exact spectral certificates},
   year         = {2026},
-  howpublished = {GitHub release v1.0.0},
+  howpublished = {Zenodo software archive (GitHub release v1.0.0)},
+  doi          = {10.5281/zenodo.24510618},
   url          = {https://github.com/Mehardeep-Singh-GG/equiangular-lines-18-19}
 }
 ```
