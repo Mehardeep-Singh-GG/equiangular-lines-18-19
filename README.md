@@ -10,7 +10,8 @@
 **Author:** Mehardeep Singh (`Sri Chaitanya Educational Institutions`, India)  
 **Contact:** `mehardeep.sim@gmail.com`  
 **Repository:** https://github.com/Mehardeep-Singh-GG/equiangular-lines-18-19 (`v1.0.0`)  
-**Software Archive DOI:** [10.5281/zenodo.24510618](https://doi.org/10.5281/zenodo.24510618)
+**Software Archive DOI:** [10.5281/zenodo.24510618](https://doi.org/10.5281/zenodo.24510618)  
+**Manuscripts:** [13-page summary (PDF)](papers/mrl/main.pdf) · [51-page full monograph (PDF)](papers/full/main.pdf)
 
 This repository contains the manuscripts, Lean 4 formalization, zero-floating-point C++20/Python verification programs, and frozen 56-file exact integer/rational certificate archive establishing upper bounds on $N(d)$, the maximum cardinality of a system of equiangular lines in $\mathbb{R}^d$:
 
